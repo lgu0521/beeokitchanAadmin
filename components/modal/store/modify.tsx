@@ -21,11 +21,11 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
 
   const onSubmit = async (data: any) => {
     let newImageStorage = null;
-
     if (newMenuImage) {
       await useDeleteStorage(item.image);
       newImageStorage = await useUploadStorage(newMenuImage, "storeImage");
     }
+
 
     try {
       const res = await fetch(
@@ -81,11 +81,11 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
                 />
               </InputWrap>
               <InputWrap>
-                <Label>메뉴 이미지</Label>
-                <Description>권장사이즈 : 300 x 300px / 지원파일 : jpg,png (최대 1MB)</Description>
+                <Label>매장 이미지</Label>
+                <Description>권장사이즈 : 380 x 320px / 지원파일 : jpg,png (최대 1MB)</Description>
                 <ImageUpload id="image"
-                  defaultImage={newMenuImage ? newMenuImage.downloadUrl : null}
-                  onImageUpload={(file: File) => { setNewMenuImage({ ...file, isSet: true }) }} />
+                  defaultImage={item.image.downloadUrl}
+                  onImageUpload={(file: File) => { setNewMenuImage(file) }} />
               </InputWrap>
               <Button type='submit'>저장</Button>
             </form>

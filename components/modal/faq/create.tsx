@@ -16,7 +16,7 @@ const CreactModal = ({ isOpen, isClose }: Props) => {
 
   const onSubmit = async (data: any) => {
     try {
-      await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/modify", {
+      await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/create", {
         method: "POST",
         body: JSON.stringify({
           ...data,

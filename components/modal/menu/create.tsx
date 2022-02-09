@@ -24,16 +24,15 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
 
   const onSubmit = async (data: any) => {
     const newImageStorage = await useUploadStorage(newMenuImage, "menuImage");
-    setNewMenuImage({...newImageStorage, isSet: true});
 
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/api/menu/modify",
+        process.env.NEXT_PUBLIC_API_URL + "/api/menu/create",
         {
           method: "POST",
           body: JSON.stringify({
             ...data,
-            image: newMenuImage,
+            image: newImageStorage,
           } as MenuDTO),
         }
       );

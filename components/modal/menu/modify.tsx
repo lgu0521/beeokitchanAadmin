@@ -96,7 +96,7 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
               </InputWrap>
               <InputWrap>
                 <Label>메뉴 이미지</Label>
-                <Description>권장사이즈 : 300 x 300px / 지원파일 : jpg,png (최대 1MB)</Description>
+                <Description>권장사이즈 : 380 x 380px / 지원파일 : jpg,png (최대 1MB)</Description>
                 <ImageUpload id="image"
                   defaultImage={item.image.downloadUrl}
                   onImageUpload={(file: File) => { setNewMenuImage(file) }} />

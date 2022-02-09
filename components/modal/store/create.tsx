@@ -19,24 +19,17 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
 
   const onSubmit = async (data: any) => {
     // 이미지 변경시, 기존 이미지 삭제 후 교체
-    let newImageStorage = null;
-
-    if (newMenuImage) {
-      newImageStorage = await useUploadStorage(newMenuImage, "storeImage");
-    }
-
-    const resData: StoreDTO = {
-      ...data,
-      image: { ...newImageStorage },
-    }
-    console.log(resData);
+    const newImageStorage = await useUploadStorage(newMenuImage, "storeImage");
 
     try {
       const res = await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/api/store/create",
         {
           method: "POST",
-          body: JSON.stringify(resData),
+          body: JSON.stringify({
+            ...data,
+            image: newImageStorage,
+          } as StoreDTO),
         }
       );
       if (res && typeof window != null) {
@@ -78,8 +71,8 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
                 />
               </InputWrap>
               <InputWrap>
-                <Label>메뉴 이미지</Label>
-                <Description>권장사이즈 : 300 x 300px / 지원파일 : jpg,png (최대 1MB)</Description>
+                <Label>매장 이미지</Label>
+                <Description>권장사이즈 : 380 x 320px / 지원파일 : jpg,png (최대 1MB)</Description>
                 <ImageUpload id="image"
                   defaultImage={null}
                   onImageUpload={(file: File) => { setNewMenuImage(file) }} />

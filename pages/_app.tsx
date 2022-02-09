@@ -2,7 +2,8 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Layout from '../components/frame/layout';
 import Head from 'next/head';
-
+import { AuthProvider } from '../hooks/AuthProvider';
+import AuthStateChanged from '../hooks/AuthStateChanged';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -11,9 +12,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"></link>
         <link rel="icon" type="image/x-icon" href="/images/favicon.png" />
       </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <AuthProvider>
+        <AuthStateChanged>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AuthStateChanged>
+      </AuthProvider>
     </>
   )
 }

@@ -9,7 +9,8 @@ import CreateModal from "../../components/modal/store/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { StoreDTO } from "../../dto/store.dto";
-
+import { useAuth } from '../../hooks/AuthProvider';
+import { useRouter } from "next/router";
 interface Props {
     stores: StoreDTO[];
 }
@@ -30,6 +31,11 @@ const defaultItem: StoreDTO = {
 
 
 const AdminStorePage: NextPage<Props> = ({ stores }) => {
+    const { user } = useAuth();
+    const router = useRouter();
+    if (!user) {
+        router.push('/signup');
+    }
     let rows: any[] = [];
     let rowNumber = 0;
     const [modifyItem, setModifyItem] = useState(defaultItem);
@@ -91,7 +97,7 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
                         // bgcolor: 'background.paper',
                         borderRadius: 1,
                     }}>
-                    <Button variant="contained" startIcon={<AddIcon />} onClick={()=>setCreateModalOpen(true)}>추가하기</Button>
+                    <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
                 </Box>
                 <Box
                     sx={{
@@ -115,14 +121,14 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
                 </Box>
                 <CreateModal
                     isOpen={createModalOpen}
-                    isClose={(click: boolean) => setCreateModalOpen(click)}/>
+                    isClose={(click: boolean) => setCreateModalOpen(click)} />
                 <ModifyModal
                     key={modifyItem.id}
                     isOpen={modifyModalOpen}
                     isClose={(click: boolean) => setModifyModalOpen(click)}
-                    item={modifyItem}/>
-                <AlertDialog 
-                    isOpen={dialogOpen} 
+                    item={modifyItem} />
+                <AlertDialog
+                    isOpen={dialogOpen}
                     isClose={(click: boolean) => setDialogOpen(click)}
                     handleDeleteClick={handleDeleteClick} />
             </div>
