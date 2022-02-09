@@ -1,4 +1,4 @@
-import { MenuCatagoryDTO, MenuDTO } from "../../../dto/menu-create.dto";
+import { MenuCatagoryDTO, MenuDTO } from "../../../dto/menu.dto";
 import { useForm } from "react-hook-form";
 import { InputWrap, Description, Label, ModalBox } from "../../../styles/AdminPage.style";
 import Box from '@mui/material/Box';
@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 import ImageUpload from '../../ImageUpload';
 import useDeleteStorage from "../../../hooks/useDeleteStorage";
 import useUploadStorage from "../../../hooks/useUploadStorage";
-import { FaqDTO } from "../../../dto/faq-create.dto";
+import { FaqDTO } from "../../../dto/faq.dto";
 
 interface Props {
   item: FaqDTO;
@@ -30,8 +30,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
         method: "POST",
         body: JSON.stringify({
           ...data,
-          id: item.id,
-          order: item.order
+          id: item.id
         } as FaqDTO),
       });
 

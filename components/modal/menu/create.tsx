@@ -1,4 +1,4 @@
-import { MenuCatagoryDTO, MenuDTO } from "../../../dto/menu-create.dto";
+import { MenuCatagoryDTO, MenuDTO } from "../../../dto/menu.dto";
 import { useForm } from "react-hook-form";
 import { InputWrap, Description, Label, ModalBox } from "../../../styles/AdminPage.style";
 import Box from '@mui/material/Box';

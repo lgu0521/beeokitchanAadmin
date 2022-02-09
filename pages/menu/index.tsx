@@ -1,12 +1,12 @@
 import { GetStaticProps, NextPage } from "next";
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import { MenuCatagoryDTO, MenusWithCatagoryDTO, MenuDTO } from "../../../dto/menu-create.dto";
+import { MenuCatagoryDTO, MenusWithCatagoryDTO, MenuDTO } from "../../dto/menu.dto";
 import { DataGrid, GridApiRef } from '@mui/x-data-grid';
-import { useMuenuColumns } from '../../../mock/grid-columns';
-import ModifyModal from '../../../components/modal/menu/modify';
-import AlertDialog from "../../../components/alertDialog";
-import CreateModal from "../../../components/modal/menu/create";
+import { useMuenuColumns } from '../../mock/grid-columns';
+import ModifyModal from '../../components/modal/menu/modify';
+import AlertDialog from "../../components/alertDialog";
+import CreateModal from "../../components/modal/menu/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -18,7 +18,7 @@ interface Props {
 
 const defaultItem: MenuDTO = {
     id: '',
-    order: 0,
+    datetime: '',
     catagory: '',
     title: '',
     content1: '',
@@ -115,7 +115,6 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
                     </div>
                 </Box>
                 <CreateModal
-                    key={modifyItem.id}
                     isOpen={createOpen}
                     isClose={(click: boolean) => setCreateOpen(click)}
                     item={catagory} />

@@ -1,4 +1,4 @@
-import { MenuCatagoryDTO, MenuDTO } from "../../../dto/menu-create.dto";
+import { MenuCatagoryDTO, MenuDTO } from "../../../dto/menu.dto";
 import { useForm } from "react-hook-form";
 import { InputWrap, Description, Label, ModalBox, Input, Select } from "../../../styles/AdminPage.style";
 import Box from '@mui/material/Box';
@@ -18,31 +18,24 @@ interface Props {
 
 const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [newMenuImage, setNewMenuImage] = useState<any>({ isSet: false });
+  const [newMenuImage, setNewMenuImage] = useState<any>(null);
 
   const onSubmit = async (data: any) => {
-    if (item.catagory != data.catagory) {
-      //date time update 로 수정
-      item.order = 0;
-    }
-
-    // 이미지 변경시, 기존 이미지 삭제 후 교체
-    if (newMenuImage.isSet) {
+    let newImageStorage = null;
+    if (newMenuImage) {
       await useDeleteStorage(item.image);
-      const newImageStorage = await useUploadStorage(newMenuImage, "menuImage");
-      setNewMenuImage({ ...newImageStorage, isSet: true });
+      newImageStorage = await useUploadStorage(newMenuImage, "menuImage");
     }
 
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/api/item/modify",
+        process.env.NEXT_PUBLIC_API_URL + "/api/menu/modify",
         {
           method: "POST",
           body: JSON.stringify({
             ...data,
             id: item.id,
-            order: item.order,
-            image: newMenuImage.isSet ? newMenuImage : item.image,
+            image: newImageStorage ? newImageStorage : item.image,
           } as MenuDTO),
         }
       );
@@ -105,10 +98,10 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
                 <Label>메뉴 이미지</Label>
                 <Description>권장사이즈 : 300 x 300px / 지원파일 : jpg,png (최대 1MB)</Description>
                 <ImageUpload id="image"
-                  defaultImage={newMenuImage ? newMenuImage.downloadUrl : null}
-                  onImageUpload={(file: File) => { setNewMenuImage({ ...file, isSet: true }) }} />
+                  defaultImage={item.image.downloadUrl}
+                  onImageUpload={(file: File) => { setNewMenuImage(file) }} />
               </InputWrap>
-              <Button>저장</Button>
+              <Button type="submit">저장</Button>
             </form>
           </Box>
         </Modal>

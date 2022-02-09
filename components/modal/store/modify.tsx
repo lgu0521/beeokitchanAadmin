@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import ImageUpload from '../../ImageUpload';
 import useDeleteStorage from "../../../hooks/useDeleteStorage";
 import useUploadStorage from "../../../hooks/useUploadStorage";
-import { StoreDTO } from "../../../dto/store-create.dto";
+import { StoreDTO } from "../../../dto/store.dto";
 
 interface Props {
   item: StoreDTO;
@@ -20,23 +20,22 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   const [newMenuImage, setNewMenuImage] = useState<any>({ ...item.image, isSet: false });
 
   const onSubmit = async (data: any) => {
-    // 이미지 변경시, 기존 이미지 삭제 후 교체
-    if (newMenuImage.isSet) {
+    let newImageStorage = null;
+
+    if (newMenuImage) {
       await useDeleteStorage(item.image);
-      const newImageStorage = await useUploadStorage(newMenuImage, "menuImage");
-      setNewMenuImage({ ...newImageStorage, isSet: true });
+      newImageStorage = await useUploadStorage(newMenuImage, "storeImage");
     }
 
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/api/menu/modify",
+        process.env.NEXT_PUBLIC_API_URL + "/api/store/modify",
         {
           method: "POST",
           body: JSON.stringify({
             ...data,
             id: item.id,
-            order: item.order,
-            image: newMenuImage.isSet ? newMenuImage : item.image,
+            image: newImageStorage ? newImageStorage : item.image,
           } as StoreDTO),
         }
       );
@@ -88,7 +87,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
                   defaultImage={newMenuImage ? newMenuImage.downloadUrl : null}
                   onImageUpload={(file: File) => { setNewMenuImage({ ...file, isSet: true }) }} />
               </InputWrap>
-              <Button>저장</Button>
+              <Button type='submit'>저장</Button>
             </form>
           </Box>
         </Modal>

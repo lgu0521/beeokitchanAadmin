@@ -2,32 +2,46 @@ import { GetStaticProps, NextPage } from "next";
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { useNoticeColumns } from '../../../mock/grid-columns';
-import ModifyModal from '../../../components/modal/menu/modify';
-import AlertDialog from "../../../components/alertDialog";
-import CreateModal from "../../../components/modal/menu/create";
+import { useStoreColumns } from '../../mock/grid-columns';
+import ModifyModal from '../../components/modal/store/modify';
+import AlertDialog from "../../components/alertDialog";
+import CreateModal from "../../components/modal/store/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import { NoticeListDTO } from "../../../dto/notice-create.dto";
+import { StoreDTO } from "../../dto/store.dto";
 
 interface Props {
-    notices: NoticeListDTO[];
+    stores: StoreDTO[];
 }
 
-const AdminNoticePage: NextPage<Props> = ({ notices }) => {
-    console.log(notices);
+const defaultItem: StoreDTO = {
+    id: '',
+    datetime: '',
+    title: '',
+    phonenumber: '',
+    operation: '',
+    image: {
+        storageRef: '',
+        downloadUrl: '',
+        fileName: ''
+    }
+}
+
+
+
+const AdminStorePage: NextPage<Props> = ({ stores }) => {
     let rows: any[] = [];
     let rowNumber = 0;
-    const [modifyItem, setModifyItem] = useState(0);
+    const [modifyItem, setModifyItem] = useState(defaultItem);
     const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
     const [modifyModalOpen, setModifyModalOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
     const madeRows = () => {
-        notices.forEach(notice => {
+        stores.forEach(store => {
             rowNumber = rowNumber + 1;
             rows.push({
-                ...notice,
+                ...store,
                 number: rowNumber,
             })
         });
@@ -49,7 +63,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
         console.log('삭제');
     }
 
-    const columns = useNoticeColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
+    const columns = useStoreColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
 
     return (
         <>
@@ -64,7 +78,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
                         borderRadius: 1,
                     }}
                 >
-                    <h1>공지사항 관리</h1>
+                    <h1>매장 관리</h1>
                 </Box>
                 <Box
                     sx={{
@@ -77,7 +91,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
                         // bgcolor: 'background.paper',
                         borderRadius: 1,
                     }}>
-                    <Button variant="contained" startIcon={<AddIcon />}>추가하기</Button>
+                    <Button variant="contained" startIcon={<AddIcon />} onClick={()=>setCreateModalOpen(true)}>추가하기</Button>
                 </Box>
                 <Box
                     sx={{
@@ -99,26 +113,28 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
                             hideFooterSelectedRowCount />
                     </div>
                 </Box>
-
-                {/* <CreateModal
+                <CreateModal
                     isOpen={createModalOpen}
                     isClose={(click: boolean) => setCreateModalOpen(click)}/>
                 <ModifyModal
+                    key={modifyItem.id}
                     isOpen={modifyModalOpen}
                     isClose={(click: boolean) => setModifyModalOpen(click)}
-                    item={rows[selectItem]}/>
-                <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
-                    handleDeleteClick={handleDeleteClick} /> */}
+                    item={modifyItem}/>
+                <AlertDialog 
+                    isOpen={dialogOpen} 
+                    isClose={(click: boolean) => setDialogOpen(click)}
+                    handleDeleteClick={handleDeleteClick} />
             </div>
         </>
     );
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/notice");
-    const notices: NoticeListDTO[] = await res.json();
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/store");
+    const stores: StoreDTO[] = await res.json();
 
-    if (!notices) {
+    if (!stores) {
         return {
             notFound: true,
         };
@@ -126,9 +142,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     return {
         props: {
-            notices
+            stores
         },
     };
 };
 
-export default AdminNoticePage;
+export default AdminStorePage;

@@ -1,6 +1,6 @@
 export interface FaqDTO {
     id: string,
-    order: number,
+    datetime: string;
     title: string,
     content: string
 }

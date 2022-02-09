@@ -6,7 +6,7 @@ const useUploadStorage = async (ImageFile: File, id: string): Promise<ImageStore
   var imageData = {} as ImageStoreageDTO;
   const d: Date = new Date();
   try {
-    const firestorage: FirebaseStorage = getStorage(firebase, "gs://jin-studio.appspot.com");
+    const firestorage: FirebaseStorage = getStorage(firebase, "gs://beeokitchen-env.appspot.com");
     const refStorage = ref(firestorage, "Project/" + d + id + ImageFile.name);
     await uploadBytes(refStorage, ImageFile);
     const downloadUrlPromise = await getDownloadURL(refStorage);

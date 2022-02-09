@@ -30,7 +30,7 @@ const Sidebar = () => {
                 subheader={
                     <ListSubheader component="div" id="nested-list-subheader">비오키친 어드민</ListSubheader>
                 }>
-                <Link href='/admin/'>
+                <Link href='/'>
                     <a>
                         <ListItemButton>
                             <ListItemIcon>
@@ -40,7 +40,7 @@ const Sidebar = () => {
                         </ListItemButton>
                     </a>
                 </Link>
-                <Link href='/admin/setting'>
+                <Link href='/setting'>
                     <a>
                         <ListItemButton>
                             <ListItemIcon>
@@ -58,7 +58,7 @@ const Sidebar = () => {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <Link href='/admin/menu'>
+                        <Link href='/menu'>
                             <a>
                                 <ListItemButton sx={{ pl: 4 }}>
                                     <ListItemIcon>
@@ -68,7 +68,7 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </a>
                         </Link>
-                        <Link href='/admin/store'>
+                        <Link href='/store'>
                             <a>
                                 <ListItemButton sx={{ pl: 4 }}>
                                     <ListItemIcon>
@@ -78,7 +78,7 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </a>
                         </Link>
-                        <Link href='/admin/faq'>
+                        <Link href='/faq'>
                             <a>
                                 <ListItemButton sx={{ pl: 4 }}>
                                     <ListItemIcon>
@@ -87,7 +87,7 @@ const Sidebar = () => {
                                     <ListItemText primary="FAQ" />
                                 </ListItemButton>
                             </a></Link>
-                        <Link href='/admin/notice'>
+                        <Link href='/notice'>
                             <a>
                                 <ListItemButton sx={{ pl: 4 }}>
                                     <ListItemIcon>

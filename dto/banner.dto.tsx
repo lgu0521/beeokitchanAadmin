@@ -1,8 +1,8 @@
-import { ImageBlock, TmpImageBlock } from "./image-create.dto";
+import { ImageStoreageDTO } from "./image-storage.dto";
 
-export interface BannerDTO extends ImageBlock {
+export interface BannerDTO extends ImageStoreageDTO {
   id: string;
-  order: number;
+  datetime: string;
 }
 
 export interface BannerCreateDTO extends Omit<BannerDTO, "id"> {

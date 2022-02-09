@@ -2,34 +2,26 @@ import { GetStaticProps, NextPage } from "next";
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { useStoreColumns } from '../../../mock/grid-columns';
-import ModifyModal from '../../../components/modal/store/modify';
-import AlertDialog from "../../../components/alertDialog";
-import CreateModal from "../../../components/modal/store/create";
+import { useFaqColumns } from '../../mock/grid-columns';
+import ModifyModal from '../../components/modal/faq/modify';
+import AlertDialog from "../../components/alertDialog";
+import CreateModal from "../../components/modal/faq/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import { StoreDTO } from "../../../dto/store-create.dto";
+import { FaqDTO } from "../../dto/faq.dto";
 
 interface Props {
-    stores: StoreDTO[];
+    faqs: FaqDTO[];
 }
 
-const defaultItem: StoreDTO = {
+const defaultItem: FaqDTO = {
     id: '',
-    order: 0,
+    datetime: '',
     title: '',
-    phonenumber: '',
-    operation: '',
-    image: {
-        storageRef: '',
-        downloadUrl: '',
-        fileName: ''
-    }
+    content: ''
 }
 
-
-
-const AdminStorePage: NextPage<Props> = ({ stores }) => {
+const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
     let rows: any[] = [];
     let rowNumber = 0;
     const [modifyItem, setModifyItem] = useState(defaultItem);
@@ -38,10 +30,10 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
     const madeRows = () => {
-        stores.forEach(store => {
+        faqs.forEach(faq => {
             rowNumber = rowNumber + 1;
             rows.push({
-                ...store,
+                ...faq,
                 number: rowNumber,
             })
         });
@@ -49,8 +41,8 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
 
     madeRows();
 
-    const handleEditClick = (id: any) => {
-        setModifyItem(id);
+    const handleEditClick = (item: any) => {
+        setModifyItem(item);
         setModifyModalOpen(true);
     };
 
@@ -63,7 +55,7 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
         console.log('삭제');
     }
 
-    const columns = useStoreColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
+    const columns = useFaqColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
 
     return (
         <>
@@ -78,7 +70,7 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
                         borderRadius: 1,
                     }}
                 >
-                    <h1>매장 관리</h1>
+                    <h1>FAQ 관리</h1>
                 </Box>
                 <Box
                     sx={{
@@ -113,18 +105,16 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
                             hideFooterSelectedRowCount />
                     </div>
                 </Box>
+
                 <CreateModal
-                    key={modifyItem.id}
                     isOpen={createModalOpen}
-                    isClose={(click: boolean) => setCreateModalOpen(click)}/>
+                    isClose={(click: boolean) => setCreateModalOpen(click)} />
                 <ModifyModal
                     key={modifyItem.id}
                     isOpen={modifyModalOpen}
                     isClose={(click: boolean) => setModifyModalOpen(click)}
-                    item={modifyItem}/>
-                <AlertDialog 
-                    isOpen={dialogOpen} 
-                    isClose={(click: boolean) => setDialogOpen(click)}
+                    item={modifyItem} />
+                <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
                     handleDeleteClick={handleDeleteClick} />
             </div>
         </>
@@ -132,10 +122,10 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/store");
-    const stores: StoreDTO[] = await res.json();
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/");
+    const faqs: FaqDTO[] = await res.json();
 
-    if (!stores) {
+    if (!faqs) {
         return {
             notFound: true,
         };
@@ -143,9 +133,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     return {
         props: {
-            stores
+            faqs
         },
     };
 };
 
-export default AdminStorePage;
+export default AdminFaqPage

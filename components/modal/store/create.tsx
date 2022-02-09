@@ -3,12 +3,10 @@ import { InputWrap, Description, Label, ModalBox, Input, TextArea } from "../../
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ImageUpload from '../../ImageUpload';
-import useDeleteStorage from "../../../hooks/useDeleteStorage";
 import useUploadStorage from "../../../hooks/useUploadStorage";
-import { StoreDTO } from "../../../dto/store-create.dto";
-import { InputLabel } from "@mui/material";
+import { StoreDTO } from "../../../dto/store.dto";
 
 interface Props {
   isOpen: boolean;
@@ -17,24 +15,28 @@ interface Props {
 
 const CreateModal = ({ isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [newMenuImage, setNewMenuImage] = useState<any>({ isSet: false });
+  const [newMenuImage, setNewMenuImage] = useState<any>(null);
 
   const onSubmit = async (data: any) => {
     // 이미지 변경시, 기존 이미지 삭제 후 교체
-    if (newMenuImage.isSet) {
-      const newImageStorage = await useUploadStorage(newMenuImage, "menuImage");
-      setNewMenuImage({ ...newImageStorage, isSet: true });
+    let newImageStorage = null;
+
+    if (newMenuImage) {
+      newImageStorage = await useUploadStorage(newMenuImage, "storeImage");
     }
+
+    const resData: StoreDTO = {
+      ...data,
+      image: { ...newImageStorage },
+    }
+    console.log(resData);
 
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/api/menu/modify",
+        process.env.NEXT_PUBLIC_API_URL + "/api/store/create",
         {
           method: "POST",
-          body: JSON.stringify({
-            ...data,
-            image: newMenuImage,
-          } as StoreDTO),
+          body: JSON.stringify(resData),
         }
       );
       if (res && typeof window != null) {
@@ -59,7 +61,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <InputWrap>
                 <Label>매장명</Label>
-                <InputLabel
+                <Input
                   {...register("title", { required: true })}
                 />
               </InputWrap>
@@ -80,9 +82,9 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
                 <Description>권장사이즈 : 300 x 300px / 지원파일 : jpg,png (최대 1MB)</Description>
                 <ImageUpload id="image"
                   defaultImage={null}
-                  onImageUpload={(file: File) => { setNewMenuImage({ ...file, isSet: true }) }} />
+                  onImageUpload={(file: File) => { setNewMenuImage(file) }} />
               </InputWrap>
-              <Button>저장</Button>
+              <Button type="submit">저장</Button>
             </form>
           </Box>
         </Modal>

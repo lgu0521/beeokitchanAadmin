@@ -12,6 +12,7 @@ interface handleClick {
 export const useMuenuColumns = ({ handleEditClick, handleDeleteClick }: handleClick): GridEnrichedColDef[] => {
     return [
         { field: 'number', headerName: 'ID', width: 70, type: 'number' },
+        { field: 'datetime', headerName: '등록일', width: 150 },
         { field: 'catagory', headerName: '카테고리명', width: 130 },
         { field: 'title', headerName: '메뉴명', width: 300 },
         { field: 'content1', headerName: '대표설명', width: 600 },
@@ -45,6 +46,7 @@ export const useMuenuColumns = ({ handleEditClick, handleDeleteClick }: handleCl
 export const useStoreColumns = ({ handleEditClick, handleDeleteClick }: handleClick): GridEnrichedColDef[] => {
     return [
         { field: 'number', headerName: 'ID', width: 70, type: 'number' },
+        { field: 'datetime', headerName: '등록일', width: 150 },
         { field: 'title', headerName: '매장 이름', width: 200 },
         { field: 'phonenumber', headerName: '전화번호', width: 300 },
         { field: 'operation', headerName: '매장 설명', width: 900 },
@@ -77,6 +79,7 @@ export const useStoreColumns = ({ handleEditClick, handleDeleteClick }: handleCl
 export const useFaqColumns = ({ handleEditClick, handleDeleteClick }: handleClick): GridEnrichedColDef[] => {
     return [
         { field: 'number', headerName: 'ID', width: 70, type: 'number' },
+        { field: 'datetime', headerName: '등록일', width: 150 },
         { field: 'title', headerName: '제목', width: 200 },
         { field: 'content', headerName: '설명', width: 1200 },
         {
@@ -108,6 +111,7 @@ export const useFaqColumns = ({ handleEditClick, handleDeleteClick }: handleClic
 export const useNoticeColumns = ({ handleEditClick, handleDeleteClick }: handleClick): GridEnrichedColDef[] => {
     return [
         { field: 'number', headerName: 'ID', width: 70, type: 'number' },
+        { field: 'datetime', headerName: '등록일', width: 150 },
         { field: 'title', headerName: '제목', width: 200 },
         { field:'datetime',headerName: '등록일', width: 200},
         { field: 'content', headerName: '설명', width: 1200 },

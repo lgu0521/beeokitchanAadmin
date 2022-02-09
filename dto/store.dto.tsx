@@ -1,12 +1,12 @@
-import { ImageBlock } from "./image-create.dto";
+import { ImageStoreageDTO } from "./image-storage.dto";
 
 export type StoreDTO = {
     id: string,
-    order:number,
+    datetime: string,
     title: string,
     phonenumber: string,
     operation: string,
-    image: ImageBlock
+    image: ImageStoreageDTO
 }
 
 export interface StoreCreateDTO extends Omit<StoreDTO, "id"> {

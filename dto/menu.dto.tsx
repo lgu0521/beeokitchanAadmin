@@ -1,4 +1,4 @@
-import { ImageBlock } from "./image-create.dto";
+import { ImageStoreageDTO } from "./image-storage.dto";
 
 export interface MenuDTO{
   id: string;
@@ -6,13 +6,13 @@ export interface MenuDTO{
   title: string;
   content1: string;
   content2: string;
-  order: number;
-  image: ImageBlock;
+  datetime: string;
+  image: ImageStoreageDTO;
 };
 
 export type MenuCatagoryDTO = {
   id: string;
-  order: number;
+  datetime: string;
   title: string;
   content: string;
 };

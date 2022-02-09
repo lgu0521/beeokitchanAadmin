@@ -2,38 +2,32 @@ import { GetStaticProps, NextPage } from "next";
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { useFaqColumns } from '../../../mock/grid-columns';
-import ModifyModal from '../../../components/modal/faq/modify';
-import AlertDialog from "../../../components/alertDialog";
-import CreateModal from "../../../components/modal/faq/create";
+import { useNoticeColumns } from '../../mock/grid-columns';
+import ModifyModal from '../../components/modal/menu/modify';
+import AlertDialog from "../../components/alertDialog";
+import CreateModal from "../../components/modal/menu/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import { FaqDTO } from "../../../dto/faq-create.dto";
+import { NoticeListDTO } from "../../dto/notice.dto";
 
 interface Props {
-    faqs: FaqDTO[];
+    notices: NoticeListDTO[];
 }
 
-const defaultItem: FaqDTO = {
-    id: '',
-    order: 0,
-    title: '',
-    content: ''
-}
-
-const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
+const AdminNoticePage: NextPage<Props> = ({ notices }) => {
+    console.log(notices);
     let rows: any[] = [];
     let rowNumber = 0;
-    const [modifyItem, setModifyItem] = useState(defaultItem);
+    const [modifyItem, setModifyItem] = useState(0);
     const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
     const [modifyModalOpen, setModifyModalOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
     const madeRows = () => {
-        faqs.forEach(faq => {
+        notices.forEach(notice => {
             rowNumber = rowNumber + 1;
             rows.push({
-                ...faq,
+                ...notice,
                 number: rowNumber,
             })
         });
@@ -41,8 +35,8 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
 
     madeRows();
 
-    const handleEditClick = (item: any) => {
-        setModifyItem(item);
+    const handleEditClick = (id: any) => {
+        setModifyItem(id);
         setModifyModalOpen(true);
     };
 
@@ -55,7 +49,7 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
         console.log('삭제');
     }
 
-    const columns = useFaqColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
+    const columns = useNoticeColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
 
     return (
         <>
@@ -70,7 +64,7 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
                         borderRadius: 1,
                     }}
                 >
-                    <h1>FAQ 관리</h1>
+                    <h1>공지사항 관리</h1>
                 </Box>
                 <Box
                     sx={{
@@ -106,27 +100,25 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
                     </div>
                 </Box>
 
-                <CreateModal
-                    key={modifyItem.id}
+                {/* <CreateModal
                     isOpen={createModalOpen}
-                    isClose={(click: boolean) => setCreateModalOpen(click)} />
+                    isClose={(click: boolean) => setCreateModalOpen(click)}/>
                 <ModifyModal
-                    key={modifyItem.id}
                     isOpen={modifyModalOpen}
                     isClose={(click: boolean) => setModifyModalOpen(click)}
-                    item={modifyItem} />
+                    item={rows[selectItem]}/>
                 <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
-                    handleDeleteClick={handleDeleteClick} />
+                    handleDeleteClick={handleDeleteClick} /> */}
             </div>
         </>
     );
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/");
-    const faqs: FaqDTO[] = await res.json();
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/notice");
+    const notices: NoticeListDTO[] = await res.json();
 
-    if (!faqs) {
+    if (!notices) {
         return {
             notFound: true,
         };
@@ -134,9 +126,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     return {
         props: {
-            faqs
+            notices
         },
     };
 };
 
-export default AdminFaqPage
+export default AdminNoticePage;

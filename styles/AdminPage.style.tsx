@@ -227,7 +227,7 @@ const Icon = styled.button`
   border: 1px solid #175436;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   display: flex;
   text-align: center;
   align-items: center;
