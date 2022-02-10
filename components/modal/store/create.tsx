@@ -7,6 +7,8 @@ import { useState } from 'react';
 import ImageUpload from '../../ImageUpload';
 import useUploadStorage from "../../../hooks/useUploadStorage";
 import { StoreDTO } from "../../../dto/store.dto";
+import TextField from '@mui/material/TextField';
+import useGetDate from "../../../hooks/useGetDate";
 
 interface Props {
   isOpen: boolean;
@@ -16,7 +18,8 @@ interface Props {
 const CreateModal = ({ isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
-
+  const [date, setDate] = useState<string>(useGetDate());
+  
   const onSubmit = async (data: any) => {
     // 이미지 변경시, 기존 이미지 삭제 후 교체
     const newImageStorage = await useUploadStorage(newMenuImage, "storeImage");
@@ -28,6 +31,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
           method: "POST",
           body: JSON.stringify({
             ...data,
+            datetime: date,
             image: newImageStorage,
           } as StoreDTO),
         }
@@ -50,8 +54,19 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
           onClose={() => isClose(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
-          <Box sx={ModalBox}>
+          <Box sx={ModalBox()}>
             <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+                id="datetime-local"
+                label="등록날짜(노출 순위가 달라집니다)"
+                type="datetime-local"
+                sx={{ width: 250 }}
+                defaultValue={date}
+                onChange={(e) => setDate(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
               <InputWrap>
                 <Label>매장명</Label>
                 <Input

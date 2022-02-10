@@ -57,7 +57,7 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
           onClose={() => isClose(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
-          <Box sx={ModalBox}>
+          <Box sx={ModalBox()}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <InputWrap>
                 <Label>메뉴 카테고리</Label>

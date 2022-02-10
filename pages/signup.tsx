@@ -46,7 +46,7 @@ const AdminSignUpPage = () => {
                                     placeholder="비밀번호를 입력해주세요"
                                 />
                             </InputWrap>
-                            <Button>로그인</Button>
+                            <Button type="submit">로그인</Button>
                         </form>
                     )}
             </Wrap>

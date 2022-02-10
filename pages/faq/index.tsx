@@ -83,7 +83,7 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
                         // bgcolor: 'background.paper',
                         borderRadius: 1,
                     }}>
-                    <Button variant="contained" startIcon={<AddIcon />}>추가하기</Button>
+                    <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
                 </Box>
                 <Box
                     sx={{

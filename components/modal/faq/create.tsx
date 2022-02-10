@@ -3,8 +3,10 @@ import { InputWrap, ModalBox } from "../../../styles/AdminPage.style";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import TextField from '@mui/material/TextField';
 import { FaqDTO } from "../../../dto/faq.dto";
+import TextField from '@mui/material/TextField';
+import useGetDate from "../../../hooks/useGetDate";
+import { useState } from "react";
 
 interface Props {
   isOpen: boolean;
@@ -13,13 +15,14 @@ interface Props {
 
 const CreactModal = ({ isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-
+  const [date, setDate] = useState<string>(useGetDate());
   const onSubmit = async (data: any) => {
     try {
       await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/create", {
         method: "POST",
         body: JSON.stringify({
           ...data,
+          datetime: date,
         } as FaqDTO),
       });
 
@@ -39,8 +42,19 @@ const CreactModal = ({ isOpen, isClose }: Props) => {
           onClose={() => isClose(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
-          <Box sx={ModalBox}>
+          <Box sx={ModalBox()}>
             <form onSubmit={handleSubmit(onSubmit)}>
+              <TextField
+                id="datetime-local"
+                label="등록날짜(노출 순위가 달라집니다)"
+                type="datetime-local"
+                sx={{ width: 250 }}
+                defaultValue={date}
+                onChange={(e) => setDate(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
               <InputWrap>
                 <TextField
                   id="component-outlined"

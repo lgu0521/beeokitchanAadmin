@@ -8,6 +8,8 @@ import ImageUpload from '../../ImageUpload';
 import useDeleteStorage from "../../../hooks/useDeleteStorage";
 import useUploadStorage from "../../../hooks/useUploadStorage";
 import { StoreDTO } from "../../../dto/store.dto";
+import TextField from '@mui/material/TextField';
+
 
 interface Props {
   item: StoreDTO;
@@ -17,8 +19,8 @@ interface Props {
 
 const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [newMenuImage, setNewMenuImage] = useState<any>({ ...item.image, isSet: false });
-
+  const [newMenuImage, setNewMenuImage] = useState<any>(null);
+  const [date, setDate] = useState<string>(item.datetime);
   const onSubmit = async (data: any) => {
     let newImageStorage = null;
     if (newMenuImage) {
@@ -34,6 +36,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
           method: "POST",
           body: JSON.stringify({
             ...data,
+            datetime: date,
             id: item.id,
             image: newImageStorage ? newImageStorage : item.image,
           } as StoreDTO),
@@ -57,8 +60,19 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
           onClose={() => isClose(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
-          <Box sx={ModalBox}>
+          <Box sx={ModalBox()}>
             <form onSubmit={handleSubmit(onSubmit)}>
+              <TextField
+                id="datetime-local"
+                label="등록날짜(노출 순위가 달라집니다)"
+                type="datetime-local"
+                defaultValue={item.datetime}
+                sx={{ width: 250 }}
+                onChange={(e) => setDate(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
               <InputWrap>
                 <Label>매장명</Label>
                 <Input

@@ -3,22 +3,30 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNoticeColumns } from '../../mock/grid-columns';
-import ModifyModal from '../../components/modal/menu/modify';
+import ModifyModal from '../../components/modal/notice/modify';
 import AlertDialog from "../../components/alertDialog";
-import CreateModal from "../../components/modal/menu/create";
+import CreateModal from "../../components/modal/notice/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import { NoticeListDTO } from "../../dto/notice.dto";
+import { NoticeDTO } from "../../dto/notice.dto";
 
 interface Props {
-    notices: NoticeListDTO[];
+    notices: NoticeDTO[];
+}
+
+const defaultItem: NoticeDTO = {
+    id: '',
+    title: '',
+    isNotice: false,
+    content: '',
+    datetime: '',
 }
 
 const AdminNoticePage: NextPage<Props> = ({ notices }) => {
     console.log(notices);
     let rows: any[] = [];
     let rowNumber = 0;
-    const [modifyItem, setModifyItem] = useState(0);
+    const [modifyItem, setModifyItem] = useState(defaultItem);
     const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
     const [modifyModalOpen, setModifyModalOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
@@ -77,7 +85,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
                         // bgcolor: 'background.paper',
                         borderRadius: 1,
                     }}>
-                    <Button variant="contained" startIcon={<AddIcon />}>추가하기</Button>
+                    <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
                 </Box>
                 <Box
                     sx={{
@@ -100,15 +108,15 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
                     </div>
                 </Box>
 
-                {/* <CreateModal
+                <CreateModal
                     isOpen={createModalOpen}
-                    isClose={(click: boolean) => setCreateModalOpen(click)}/>
+                    isClose={(click: boolean) => setCreateModalOpen(click)} />
                 <ModifyModal
                     isOpen={modifyModalOpen}
                     isClose={(click: boolean) => setModifyModalOpen(click)}
-                    item={rows[selectItem]}/>
+                    item={modifyItem} />
                 <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
-                    handleDeleteClick={handleDeleteClick} /> */}
+                    handleDeleteClick={handleDeleteClick} />
             </div>
         </>
     );
@@ -116,7 +124,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
     const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/notice");
-    const notices: NoticeListDTO[] = await res.json();
+    const notices: NoticeDTO[] = await res.json();
 
     if (!notices) {
         return {

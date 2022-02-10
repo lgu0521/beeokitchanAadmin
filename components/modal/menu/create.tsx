@@ -8,9 +8,10 @@ import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
 import ImageUpload from '../../ImageUpload';
 import useUploadStorage from "../../../hooks/useUploadStorage";
+import TextField from '@mui/material/TextField';
+import useGetDate from "../../../hooks/useGetDate";
 
 interface Props {
   item: MenuCatagoryDTO[];
@@ -21,7 +22,7 @@ interface Props {
 const CreateModal = ({ item, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
-
+  const [date, setDate] = useState<string>(useGetDate());
   const onSubmit = async (data: any) => {
     const newImageStorage = await useUploadStorage(newMenuImage, "menuImage");
 
@@ -32,6 +33,7 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
           method: "POST",
           body: JSON.stringify({
             ...data,
+            datetime: date,
             image: newImageStorage,
           } as MenuDTO),
         }
@@ -54,8 +56,19 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
           onClose={() => isClose(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
-          <Box sx={ModalBox}>
+          <Box sx={ModalBox()}>
             <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+                id="datetime-local"
+                label="등록날짜(노출 순위가 달라집니다)"
+                type="datetime-local"
+                sx={{ width: 250 }}
+                defaultValue={date}
+                onChange={(e) => setDate(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
               <InputWrap>
                 <Select
                   labelId="demo-simple-select-label"

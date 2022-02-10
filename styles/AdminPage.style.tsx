@@ -308,16 +308,19 @@ const DeleteButton = styled.div`
   cursor: pointer;
 `;
 
-export const ModalBox = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 500,
-  minHeight: 500,
-  bgcolor: 'background.paper',
-  borderRadius: '20px',
-  p: 4,
+export const ModalBox = (width?: number) => {
+  return {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: width ? width : 500,
+    minHeight: 500,
+    maxHeight: 800,
+    bgcolor: 'background.paper',
+    borderRadius: '20px',
+    p: 4,
+  }
 };
 
 const Style = {

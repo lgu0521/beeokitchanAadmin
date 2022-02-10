@@ -1,29 +1,20 @@
 export type NoticeDTO = {
+  id: string;
   title: string;
   content: string;
   datetime: string;
   isNotice: boolean;
 };
 
-export interface NoticeCreateDTO extends NoticeDTO {}
-
-export type NoticeCurrentAndAfterAndBefroeListDTO = {
-  after?: NoticeDetailDTO;
-  before?: NoticeDetailDTO;
-};
+export interface NoticeCreateDTO extends Omit<NoticeDTO, "id"> {
+  id?: string,
+}
 
 export interface NoticeDeleteDTO {
-  id: string;
+  id: string
 }
 
-export interface NoticeModifyDTO extends NoticeDTO {
-  id: string;
-}
-
-export interface NoticeListDTO extends NoticeDTO {
-  id: string;
-}
-
-export interface NoticeDetailDTO extends NoticeDTO {
-  id: string;
-}
+export type NoticeCurrentAndAfterAndBefroeListDTO = {
+  after?: NoticeDTO;
+  before?: NoticeDTO;
+};
