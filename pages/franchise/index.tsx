@@ -2,7 +2,7 @@ import { GetStaticProps, NextPage } from "next";
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { useMainColumns } from '../../mock/grid-columns';
+import { useFranChiseColumns } from '../../mock/grid-columns';
 import ModifyModal from '../../components/modal/franchise/modify';
 import AlertDialog from "../../components/alertDialog";
 import CreateModal from "../../components/modal/franchise/create";
@@ -11,6 +11,9 @@ import AddIcon from '@mui/icons-material/Add';
 import { useAuth } from '../../hooks/AuthProvider';
 import { useRouter } from "next/router";
 import { FranChiseDTO } from "../../dto/franchise.dto";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 interface Props {
     franchises: FranChiseDTO[],
@@ -73,23 +76,27 @@ const AdminFranChisePage: NextPage<Props> = ({ franchises }) => {
         setDialogOpen(true);
     }
 
-    const columns = useMainColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
+    const columns = useFranChiseColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
 
     return (
         <>
-            <div style={{ width: '100%' }}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        p: 1,
-                        m: 1,
-                        bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}
-                >
-                    <h1>프랜차이즈 관리</h1>
-                </Box>
+            <Card sx={{ width: '100%', borderRadius: '12px' }}>
+                <CardContent>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            p: 1,
+                            m: 1,
+                            borderRadius: 1,
+                        }}>
+                        <Typography gutterBottom variant="h4" component="div">프랜차이즈 관리</Typography>
+                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
+                    </Box>
+                </CardContent>
+                <CardContent>
                 <Box
                     sx={{
                         display: 'flex',
@@ -135,7 +142,8 @@ const AdminFranChisePage: NextPage<Props> = ({ franchises }) => {
                     isOpen={dialogOpen}
                     isClose={(click: boolean) => setDialogOpen(click)}
                     handleDeleteClick={handleDeleteClick} />
-            </div>
+                </CardContent>
+            </Card>
         </>
     );
 }

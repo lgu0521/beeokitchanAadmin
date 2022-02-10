@@ -9,6 +9,9 @@ import CreateModal from "../../components/modal/faq/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { FaqDTO } from "../../dto/faq.dto";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 interface Props {
     faqs: FaqDTO[];
@@ -69,19 +72,23 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
 
     return (
         <>
-            <div style={{ width: '100%' }}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        p: 1,
-                        m: 1,
-                        bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}
-                >
-                    <h1>FAQ 관리</h1>
-                </Box>
+            <Card sx={{ width: '100%', borderRadius: '12px' }}>
+                <CardContent>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            p: 1,
+                            m: 1,
+                            borderRadius: 1,
+                        }}>
+                        <Typography gutterBottom variant="h4" component="div">FAQ 관리</Typography>
+                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
+                    </Box>
+                </CardContent>
+                <CardContent>
                 <Box
                     sx={{
                         display: 'flex',
@@ -126,7 +133,8 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
                     item={modifyItem} />
                 <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
                     handleDeleteClick={handleDeleteClick} />
-            </div>
+                </CardContent>
+            </Card>
         </>
     );
 }

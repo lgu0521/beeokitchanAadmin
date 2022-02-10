@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import Footer from "./footer";
+import Header from "./header";
 import Sidebar from "./sidebar"
 import Main from './main';
 type AppLayoutProps = {
@@ -14,15 +14,17 @@ const Layout = ({ children }: AppLayoutProps) => {
                     display: 'grid',
                     gridTemplateColumns: 'repeat(6, 1fr)',
                     gap: 0,
-                    gridTemplateRows: 'repeat(1, 1fr)',
-                    gridTemplateAreas: `"sidebar main main main main main"
-                                        "sidebar footer footer footer footer footer"`,
+                    gridTemplateRows: 'repeat(2, 1fr)',
+                    gridTemplateAreas: `
+                    "header header header header header header"
+                    "sidebar main main main main main"
+                                       `,
                 }}>
-                <Box sx={{ gridRow: '1' , gridArea: 'main', bgcolor: '#edf5e1' }}>
+                <Box sx={{ gridRow: '1', gridArea: 'header', bgcolor: "#1565C0" }}><Header /></Box>
+                <Box sx={{ gridRow: '1', gridArea: 'main', bgcolor: "#E3F2FD" }}>
                     <Main>{children}</Main>
                 </Box>
-                <Box sx={{ gridRow: '1' ,gridArea: 'sidebar', bgcolor: '#05386B' }}><Sidebar /></Box>
-                <Box sx={{ gridRow: '1' ,gridArea: 'footer', bgcolor: '#edf5e1' }}><Footer /></Box>
+                <Box sx={{ gridRow: '1', gridArea: 'sidebar', bgcolor: "#1565C0" }}><Sidebar /></Box>
             </Box>
         </>
     )

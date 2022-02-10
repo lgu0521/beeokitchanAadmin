@@ -3,7 +3,7 @@ import { InputWrap, ModalBox } from "../../../styles/AdminPage.style";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import { FaqDTO } from "../../../dto/faq.dto";
+import { FranChiseDTO } from "../../../dto/franchise.dto";
 import TextField from '@mui/material/TextField';
 import useGetDate from "../../../hooks/useGetDate";
 import { useState } from "react";
@@ -18,12 +18,12 @@ const CreactModal = ({ isOpen, isClose }: Props) => {
   const [date, setDate] = useState<string>(useGetDate());
   const onSubmit = async (data: any) => {
     try {
-      await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/create", {
+      await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/franchise/create", {
         method: "POST",
         body: JSON.stringify({
           ...data,
           datetime: date,
-        } as FaqDTO),
+        } as FranChiseDTO),
       });
 
       if (typeof window != undefined) {
@@ -58,17 +58,8 @@ const CreactModal = ({ isOpen, isClose }: Props) => {
               <InputWrap>
                 <TextField
                   id="component-outlined"
-                  {...register("title", { required: true, maxLength: 20 })}
-                  label="FAQ 제목"
-                />
-              </InputWrap>
-              <InputWrap>
-                <TextField
-                  multiline
-                  rows={10}
-                  id="component-outlined"
-                  {...register("content", { required: true })}
-                  label="FAQ 내용"
+                  {...register("description", { required: true })}
+                  label="가맹절차 폼 내용"
                 />
               </InputWrap>
               <Button type="submit">저장</Button>

@@ -12,6 +12,9 @@ import { StoreDTO } from "../../dto/store.dto";
 import { useAuth } from '../../hooks/AuthProvider';
 import { useRouter } from "next/router";
 import useDeleteStorage from "../../hooks/useDeleteStorage";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 interface Props {
     stores: StoreDTO[];
 }
@@ -86,65 +89,57 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
 
     return (
         <>
-            <div style={{ width: '100%' }}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        p: 1,
-                        m: 1,
-                        bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}
-                >
-                    <h1>매장 관리</h1>
-                </Box>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        justifyContent: 'flex-end',
-                        p: 1,
-                        m: 1,
-                        // bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}>
-                    <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
-                </Box>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        p: 1,
-                        m: 1,
-                        // bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}
-                >
-                    <div style={{ height: 630, width: '100%', background: 'white', margin: 'auto' }}>
-                        <DataGrid
-                            rows={rows}
-                            columns={columns}
-                            pageSize={10}
-                            rowsPerPageOptions={[10]}
-                            hideFooterSelectedRowCount />
-                    </div>
-                </Box>
-                <CreateModal
-                    isOpen={createModalOpen}
-                    isClose={(click: boolean) => setCreateModalOpen(click)} />
-                <ModifyModal
-                    key={modifyItem.id}
-                    isOpen={modifyModalOpen}
-                    isClose={(click: boolean) => setModifyModalOpen(click)}
-                    item={modifyItem} />
-                <AlertDialog
-                    isOpen={dialogOpen}
-                    isClose={(click: boolean) => setDialogOpen(click)}
-                    handleDeleteClick={handleDeleteClick} />
-            </div>
+            <Card sx={{ width: '100%', borderRadius: '12px' }}>
+                <CardContent>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            p: 1,
+                            m: 1,
+                            borderRadius: 1,
+                        }}>
+                        <Typography gutterBottom variant="h4" component="div">매장 관리</Typography>
+                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
+                    </Box>
+                </CardContent>
+                <CardContent>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                            p: 1,
+                            m: 1,
+                            // bgcolor: 'background.paper',
+                            borderRadius: 1,
+                        }}
+                    >
+                        <div style={{ height: 630, width: '100%', background: 'white', margin: 'auto' }}>
+                            <DataGrid
+                                rows={rows}
+                                columns={columns}
+                                pageSize={10}
+                                rowsPerPageOptions={[10]}
+                                hideFooterSelectedRowCount />
+                        </div>
+                    </Box>
+                    <CreateModal
+                        isOpen={createModalOpen}
+                        isClose={(click: boolean) => setCreateModalOpen(click)} />
+                    <ModifyModal
+                        key={modifyItem.id}
+                        isOpen={modifyModalOpen}
+                        isClose={(click: boolean) => setModifyModalOpen(click)}
+                        item={modifyItem} />
+                    <AlertDialog
+                        isOpen={dialogOpen}
+                        isClose={(click: boolean) => setDialogOpen(click)}
+                        handleDeleteClick={handleDeleteClick} />
+                </CardContent>
+            </Card>
         </>
     );
 }

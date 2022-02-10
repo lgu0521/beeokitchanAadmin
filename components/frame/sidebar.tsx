@@ -88,6 +88,16 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </a>
                         </Link>
+                        <Link href='/franchise'>
+                            <a>
+                                <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemIcon>
+                                        <StarBorder />
+                                    </ListItemIcon>
+                                    <ListItemText primary="프랜차이즈" />
+                                </ListItemButton>
+                            </a>
+                        </Link>
                         <Link href='/faq'>
                             <a>
                                 <ListItemButton sx={{ pl: 4 }}>

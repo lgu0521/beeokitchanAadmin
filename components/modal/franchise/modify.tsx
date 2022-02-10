@@ -19,7 +19,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   const [date, setDate] = useState<string>(item.datetime);
   const onSubmit = async (data: any) => {
     try {
-      await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/modify", {
+      await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/franchise/modify", {
         method: "POST",
         body: JSON.stringify({
           ...data,
@@ -60,19 +60,9 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
               <InputWrap>
                 <TextField
                   id="component-outlined"
-                  defaultValue={item.step}
-                  {...register("title", { required: true, maxLength: 20 })}
-                  label="FAQ 제목"
-                />
-              </InputWrap>
-              <InputWrap>
-                <TextField
-                  id="component-outlined"
-                  multiline
-                  rows={10}
-                  defaultValue={item.content}
-                  {...register("content", { required: true })}
-                  label="FAQ 내용"
+                  defaultValue={item.description}
+                  {...register("description", { required: true })}
+                  label="가맹절차 폼 내용"
                 />
               </InputWrap>
               <Button type="submit">저장</Button>

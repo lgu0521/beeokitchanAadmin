@@ -9,6 +9,9 @@ import CreateModal from "../../components/modal/notice/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { NoticeDTO } from "../../dto/notice.dto";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 interface Props {
     notices: NoticeDTO[];
@@ -74,19 +77,23 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
 
     return (
         <>
-            <div style={{ width: '100%' }}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        p: 1,
-                        m: 1,
-                        bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}
-                >
-                    <h1>공지사항 관리</h1>
-                </Box>
+            <Card sx={{ width: '100%', borderRadius: '12px' }}>
+                <CardContent>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            p: 1,
+                            m: 1,
+                            borderRadius: 1,
+                        }}>
+                        <Typography gutterBottom variant="h4" component="div">공지사항 관리</Typography>
+                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
+                    </Box>
+                </CardContent>
+                <CardContent>
                 <Box
                     sx={{
                         display: 'flex',
@@ -130,7 +137,8 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
                     item={modifyItem} />
                 <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
                     handleDeleteClick={handleDeleteClick} />
-            </div>
+                </CardContent>
+            </Card>
         </>
     );
 }

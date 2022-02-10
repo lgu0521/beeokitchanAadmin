@@ -1,3 +1,5 @@
+import styled from "styled-components";
+
 type AppLayoutProps = {
     children: React.ReactNode;
 };
@@ -5,10 +7,14 @@ type AppLayoutProps = {
 
 const Main = ({ children }: AppLayoutProps) => {
     return (
-        <div>
+        <Wrap>
             {children}
-        </div>
+        </Wrap>
     )
 }
 
+
+const Wrap = styled.div`
+    padding: 20px;
+`
 export default Main;

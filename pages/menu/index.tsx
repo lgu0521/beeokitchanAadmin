@@ -10,6 +10,9 @@ import CreateModal from "../../components/modal/menu/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import useDeleteStorage from "../../hooks/useDeleteStorage";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 interface Props {
     menuByCatagory: MenusWithCatagoryDTO[];
@@ -35,9 +38,9 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
     let rows: any[] = [];
     let rowNumber = 0;
     const [modifyItem, setModifyItem] = useState(defaultItem);
-    const [createOpen, setCreateOpen] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+    const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
     const madeRows = () => {
         menuByCatagory.forEach(catagory => {
             catagory.menus.forEach(menu => {
@@ -80,19 +83,23 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
     const columns = useMuenuColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
     return (
         <>
-            <div style={{ width: '100%' }}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        p: 1,
-                        m: 1,
-                        bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}
-                >
-                    <h1>메뉴 관리</h1>
-                </Box>
+            <Card sx={{ width: '100%', borderRadius: '12px' }}>
+                <CardContent>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            p: 1,
+                            m: 1,
+                            borderRadius: 1,
+                        }}>
+                        <Typography gutterBottom variant="h4" component="div">메뉴 관리</Typography>
+                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
+                    </Box>
+                </CardContent>
+                <CardContent>
                 <Box
                     sx={{
                         display: 'flex',
@@ -104,7 +111,7 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
                         // bgcolor: 'background.paper',
                         borderRadius: 1,
                     }}>
-                    <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateOpen(true)}>메뉴 추가</Button>
+                    <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>메뉴 추가</Button>
                 </Box>
                 <Box
                     sx={{
@@ -126,8 +133,8 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
                     </div>
                 </Box>
                 <CreateModal
-                    isOpen={createOpen}
-                    isClose={(click: boolean) => setCreateOpen(click)}
+                    isOpen={createModalOpen}
+                    isClose={(click: boolean) => setCreateModalOpen(click)}
                     item={catagory} />
                 <ModifyModal
                     key={modifyItem.id}
@@ -137,7 +144,8 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
                     itemCatagory={catagory} />
                 <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
                     handleDeleteClick={handleDeleteClick} />
-            </div>
+                </CardContent>
+            </Card>
         </>
     );
 }
