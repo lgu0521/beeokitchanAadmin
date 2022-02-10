@@ -98,19 +98,6 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        flexDirection: 'row',
-                        justifyContent: 'flex-end',
-                        p: 1,
-                        m: 1,
-                        // bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}>
-                    <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
-                </Box>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
                         flexDirection: 'column',
                         p: 1,
                         m: 1,

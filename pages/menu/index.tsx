@@ -104,19 +104,6 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        flexDirection: 'row',
-                        justifyContent: 'flex-end',
-                        p: 1,
-                        m: 1,
-                        // bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}>
-                    <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>메뉴 추가</Button>
-                </Box>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
                         flexDirection: 'column',
                         p: 1,
                         m: 1,
