@@ -58,6 +58,16 @@ const Sidebar = () => {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
+                        <Link href='/home'>
+                            <a>
+                                <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemIcon>
+                                        <StarBorder />
+                                    </ListItemIcon>
+                                    <ListItemText primary="메인" />
+                                </ListItemButton>
+                            </a>
+                        </Link>
                         <Link href='/menu'>
                             <a>
                                 <ListItemButton sx={{ pl: 4 }}>

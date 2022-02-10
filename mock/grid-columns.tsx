@@ -139,3 +139,35 @@ export const useNoticeColumns = ({ handleEditClick, handleDeleteClick }: handleC
         },
     ];
 }
+
+
+export const useMainColumns = ({ handleEditClick, handleDeleteClick }: handleClick): GridEnrichedColDef[] => {
+    return [
+        { field: 'number', headerName: 'ID', width: 70, type: 'number' },
+        { field: 'datetime', headerName: '등록일', width: 150 },
+        { field: 'type', headerName: '화면 유형', width: 200 },
+        { field:'fileName',headerName: '파일 이름', width: 200},
+        {
+            field: 'actions',
+            type: 'actions',
+            headerName: '편집',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: ({ row }) => [
+                <GridActionsCellItem
+                    icon={<EditIcon />}
+                    label="Edit"
+                    className="textPrimary"
+                    onClick={() => handleEditClick(row)}
+                    color="inherit"
+                />,
+                <GridActionsCellItem
+                    icon={<DeleteIcon />}
+                    label="Delete"
+                    onClick={() => handleDeleteClick(row)}
+                    color="inherit"
+                />,
+            ],
+        },
+    ];
+}
