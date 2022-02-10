@@ -74,24 +74,29 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
                 }}
               />
               <InputWrap>
-                <Label>매장명</Label>
-                <Input
+                <TextField
+                  id="component-outlined"
                   defaultValue={item.title}
                   {...register("title", { required: true })}
+                  label="매장명"
                 />
               </InputWrap>
               <InputWrap>
-                <Label>매장 정보</Label>
-                <TextArea
+                <TextField
+                  id="component-outlined"
                   defaultValue={item.operation}
+                  multiline
+                  rows={5}
                   {...register("operation", { required: true })}
+                  label="매장 정보"
                 />
               </InputWrap>
               <InputWrap>
-                <Label>매장 전화번호</Label>
-                <Input
+                <TextField
+                  id="component-outlined"
                   defaultValue={item.phonenumber}
                   {...register("phonenumber", { required: true })}
+                  label="매장 전화번호"
                 />
               </InputWrap>
               <InputWrap>

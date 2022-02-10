@@ -22,7 +22,7 @@ const ImageUpload = ({ id, defaultImage, onImageUpload }: Props) => {
         <InputLabel htmlFor={id}>
           <span>이미지 추가</span>
         </InputLabel>
-        <InputBox id={id} type="file" onChange={addImage} />
+        <InputBox id={id} type="file" onChange={addImage} required/>
         {image ? (
           <ImageWrap>
             <Image src={image} height={150} width={150} />

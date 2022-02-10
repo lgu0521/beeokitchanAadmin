@@ -50,6 +50,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
     };
 
     const SetDialogOpen = (id: any) => {
+        setDialogOpen(true);
         setModifyItem(id);
     }
 
