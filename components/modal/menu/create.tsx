@@ -73,10 +73,10 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  label="catagory"
+                  label="메뉴 카테고리"
                   {...register("catagory", { required: true })}>
                   {item.map((item, i) => (
-                    <MenuItem value={item.title}> {item.title}</MenuItem>
+                    <MenuItem key={i} value={item.title}> {item.title}</MenuItem>
                   ))}
                 </Select>
               </InputWrap>
@@ -106,7 +106,7 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
                 <Description>권장사이즈 : 300 x 300px / 지원파일 : jpg,png (최대 1MB)</Description>
                 <ImageUpload id="image"
                   defaultImage={newMenuImage ? newMenuImage.downloadUrl : null}
-                  onImageUpload={(file: File) => { setNewMenuImage({ ...file, isSet: true }) }} />
+                  onImageUpload={(file: File) => { setNewMenuImage(file) }} />
               </InputWrap>
               <Button type="submit">저장</Button>
             </form>

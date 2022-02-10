@@ -1,13 +1,16 @@
 import { MenuCatagoryDTO, MenuDTO } from "../../../dto/menu.dto";
 import { useForm } from "react-hook-form";
-import { InputWrap, Description, Label, ModalBox, Input, Select } from "../../../styles/AdminPage.style";
+import { InputWrap, Description, Label, ModalBox } from "../../../styles/AdminPage.style";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ImageUpload from '../../ImageUpload';
 import useDeleteStorage from "../../../hooks/useDeleteStorage";
 import useUploadStorage from "../../../hooks/useUploadStorage";
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
 interface Props {
   item: MenuDTO;
@@ -19,14 +22,16 @@ interface Props {
 const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
+  const [date, setDate] = useState<string>(item.datetime);
 
   const onSubmit = async (data: any) => {
     let newImageStorage = null;
+    console.log(data);
     if (newMenuImage) {
       await useDeleteStorage(item.image);
       newImageStorage = await useUploadStorage(newMenuImage, "menuImage");
     }
-
+    console.log(data);
     try {
       const res = await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/api/menu/modify",
@@ -34,6 +39,7 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
           method: "POST",
           body: JSON.stringify({
             ...data,
+            datetime: date,
             id: item.id,
             image: newImageStorage ? newImageStorage : item.image,
           } as MenuDTO),
@@ -59,39 +65,53 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
           aria-describedby="modal-modal-description">
           <Box sx={ModalBox()}>
             <form onSubmit={handleSubmit(onSubmit)}>
+            <InputWrap>
+            <TextField
+                id="datetime-local"
+                label="등록날짜(노출 순위가 달라집니다)"
+                type="datetime-local"
+                sx={{ width: 250 }}
+                defaultValue={date}
+                onChange={(e) => setDate(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              </InputWrap>
               <InputWrap>
-                <Label>메뉴 카테고리</Label>
-                <Description>메뉴 카테고리를 생성하고 싶으시면 메인에서 추가하세요</Description>
                 <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="메뉴 카테고리"
                   defaultValue={item.catagory}
-                  {...register("catagory", { required: true })}
-                >
-                  {itemCatagory.map((item, i) => (
-                    <option value={item.title} key={i}>
-                      {item.title}
-                    </option>
+                  {...register("catagory", { required: true })}>
+                  {itemCatagory.map((catagory, i) => (
+                    <MenuItem key={i} value={catagory.title}> {catagory.title}</MenuItem>
                   ))}
                 </Select>
               </InputWrap>
               <InputWrap>
-                <Label>메뉴 이름</Label>
-                <Input
+                <TextField
+                  id="component-outlined"
                   defaultValue={item.title}
-                  {...register("title", { required: true, maxLength: 20 })}
+                  {...register("title", { required: true })}
+                  label="메뉴명"
                 />
               </InputWrap>
               <InputWrap>
-                <Label>메뉴 설명1</Label>
-                <Input
+                <TextField
+                  id="component-outlined"
                   defaultValue={item.content1}
                   {...register("content1", { required: true })}
+                  label="메뉴 대표설명"
                 />
               </InputWrap>
               <InputWrap>
-                <Label>메뉴 설명2</Label>
-                <Input
+                <TextField
+                  id="component-outlined"
                   defaultValue={item.content2}
-                  {...register("content2")}
+                  {...register("content2", { required: true })}
+                  label="메뉴 부가설명"
                 />
               </InputWrap>
               <InputWrap>
