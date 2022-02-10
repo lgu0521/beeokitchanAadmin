@@ -71,7 +71,7 @@ const CreactModal = ({ isOpen, isClose }: Props) => {
                   label="FAQ 내용"
                 />
               </InputWrap>
-              <Button type="submit">저장</Button>
+              <Button variant="contained" type="submit">저장</Button>
             </form>
           </Box>
         </Modal>

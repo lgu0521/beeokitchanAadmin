@@ -13,6 +13,8 @@ import useDeleteStorage from "../../hooks/useDeleteStorage";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import { useAuth } from '../../hooks/AuthProvider';
+import { useRouter } from "next/router";
 
 interface Props {
     menuByCatagory: MenusWithCatagoryDTO[];
@@ -37,6 +39,11 @@ const defaultItem: MenuDTO = {
 const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
     let rows: any[] = [];
     let rowNumber = 0;
+    const { user } = useAuth();
+    const router = useRouter();
+    if (!user) {
+        router.push('/signup');
+    }
     const [modifyItem, setModifyItem] = useState(defaultItem);
     const [open, setOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);

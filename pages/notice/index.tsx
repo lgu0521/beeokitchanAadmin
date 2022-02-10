@@ -12,6 +12,8 @@ import { NoticeDTO } from "../../dto/notice.dto";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import { useAuth } from '../../hooks/AuthProvider';
+import { useRouter } from "next/router";
 
 interface Props {
     notices: NoticeDTO[];
@@ -26,7 +28,11 @@ const defaultItem: NoticeDTO = {
 }
 
 const AdminNoticePage: NextPage<Props> = ({ notices }) => {
-    console.log(notices);
+    const { user } = useAuth();
+    const router = useRouter();
+    if (!user) {
+        router.push('/signup');
+    }
     let rows: any[] = [];
     let rowNumber = 0;
     const [modifyItem, setModifyItem] = useState(defaultItem);

@@ -30,25 +30,6 @@ const Sidebar = () => {
                 subheader={
                     <ListSubheader component="div" id="nested-list-subheader">비오키친 어드민</ListSubheader>
                 }>
-                <Link href='/'>
-                    <a>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <SendIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="홈" />
-                        </ListItemButton>
-                    </a>
-                </Link>
-                <Link href='/setting'>
-                    <a>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <DraftsIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="환경설정" />
-                        </ListItemButton>
-                    </a></Link>
                 <ListItemButton onClick={handleClick}>
                     <ListItemIcon>
                         <InboxIcon />
@@ -58,7 +39,7 @@ const Sidebar = () => {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <Link href='/home'>
+                        <Link href='/'>
                             <a>
                                 <ListItemButton sx={{ pl: 4 }}>
                                     <ListItemIcon>

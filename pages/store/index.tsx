@@ -15,6 +15,7 @@ import useDeleteStorage from "../../hooks/useDeleteStorage";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+
 interface Props {
     stores: StoreDTO[];
 }

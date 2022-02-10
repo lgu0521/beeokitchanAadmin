@@ -14,17 +14,16 @@ const Layout = ({ children }: AppLayoutProps) => {
                     display: 'grid',
                     gridTemplateColumns: 'repeat(6, 1fr)',
                     gap: 0,
-                    gridTemplateRows: 'repeat(2, 1fr)',
+                    gridTemplateRows: '70px 1fr',
                     gridTemplateAreas: `
                     "header header header header header header"
-                    "sidebar main main main main main"
-                                       `,
+                    "sidebar main main main main main"`,
                 }}>
-                <Box sx={{ gridRow: '1', gridArea: 'header', bgcolor: "#1565C0" }}><Header /></Box>
-                <Box sx={{ gridRow: '1', gridArea: 'main', bgcolor: "#E3F2FD" }}>
+                <Box sx={{ gridRow:'1', gridArea: 'header', bgcolor: "white", height:"40px" }}><Header /></Box>
+                <Box sx={{  gridRow:"1",  gridArea: 'main', bgcolor: "white" }}>
                     <Main>{children}</Main>
                 </Box>
-                <Box sx={{ gridRow: '1', gridArea: 'sidebar', bgcolor: "#1565C0" }}><Sidebar /></Box>
+                <Box sx={{ gridRow:"1", gridArea: 'sidebar', bgcolor: "white" }}><Sidebar /></Box>
             </Box>
         </>
     )

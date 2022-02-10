@@ -108,7 +108,7 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
                   defaultImage={newMenuImage ? newMenuImage.downloadUrl : null}
                   onImageUpload={(file: File) => { setNewMenuImage(file) }} />
               </InputWrap>
-              <Button type="submit">저장</Button>
+              <Button variant="contained" type="submit">저장</Button>
             </form>
           </Box>
         </Modal>

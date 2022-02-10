@@ -2,9 +2,10 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Layout from '../components/frame/layout';
 import Head from 'next/head';
-import { AuthProvider } from '../hooks/AuthProvider';
+import { AuthProvider,useAuth } from '../hooks/AuthProvider';
 import AuthStateChanged from '../hooks/AuthStateChanged';
 function MyApp({ Component, pageProps }: AppProps) {
+
   return (
     <>
       <Head>
