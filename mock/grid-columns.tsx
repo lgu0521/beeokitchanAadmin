@@ -145,8 +145,8 @@ export const useMainColumns = ({ handleEditClick, handleDeleteClick }: handleCli
     return [
         { field: 'number', headerName: 'ID', width: 70, type: 'number' },
         { field: 'datetime', headerName: '등록일', width: 150 },
-        { field: 'type', headerName: '화면 유형', width: 200 },
-        { field:'fileName',headerName: '파일 이름', width: 200},
+        { field: 'type', headerName: '화면 유형', width: 100 },
+        { field:'fileName',headerName: '파일 이름', width: 800},
         {
             field: 'actions',
             type: 'actions',

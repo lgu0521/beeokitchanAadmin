@@ -37,6 +37,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
           method: "POST",
           body: JSON.stringify({
             ...newImageStorage,
+            type: data.type,
             id: item.id,
             datetime: date
           } as BannerDTO),
@@ -78,6 +79,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="화면 유형"
+                  defaultValue={item.type}
                   {...register("type", { required: true })}>
                     <MenuItem value="PC">PC 화면</MenuItem>
                     <MenuItem value="MB">MB 화면</MenuItem>

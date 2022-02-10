@@ -33,6 +33,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
           method: "POST",
           body: JSON.stringify({
             ...newImageStorage,
+            type: data.type,
             datetime: date
           } as BannerDTO),
         }

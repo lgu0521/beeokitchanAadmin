@@ -18,7 +18,7 @@ interface Props {
 
 const defaultItem: BannerDTO = {
     id: '',
-    type: false,
+    type: 'PC',
     datetime: '',
     storageRef: '',
     downloadUrl: '',
