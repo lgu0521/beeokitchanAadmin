@@ -46,15 +46,25 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
         setModifyModalOpen(true);
     };
 
-    const handleDeleteClick = () => {
-
-    };
-
     const SetDialogOpen = (id: any) => {
+        setModifyItem(id);
         setDialogOpen(true);
-        console.log('삭제');
     }
 
+    const handleDeleteClick = async () => {
+        try {
+            await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/delete", {
+                method: "POST",
+                body: JSON.stringify({ id: modifyItem.id }),
+            });
+
+            if (typeof window != null) {
+                window.location.reload();
+            }
+        } catch (e) {
+            alert("다시 시도해주세요");
+        }
+    };
     const columns = useFaqColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
 
     return (

@@ -9,6 +9,7 @@ import AlertDialog from "../../components/alertDialog";
 import CreateModal from "../../components/modal/menu/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import useDeleteStorage from "../../hooks/useDeleteStorage";
 
 interface Props {
     menuByCatagory: MenusWithCatagoryDTO[];
@@ -56,16 +57,26 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
         setModifyItem(id);
         setOpen(true);
     };
-
-    const handleDeleteClick = () => {
-
-    };
-
     const SetDialogOpen = (id: any) => {
+        setModifyItem(id);
         setDialogOpen(true);
-        console.log('삭제');
     }
 
+    const handleDeleteClick = async () => {
+        try {
+            await useDeleteStorage(modifyItem.image);
+            await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/menu/delete", {
+                method: "POST",
+                body: JSON.stringify({ id: modifyItem.id }),
+            });
+
+            if (typeof window != null) {
+                window.location.reload();
+            }
+        } catch (e) {
+            alert("다시 시도해주세요");
+        }
+    };
     const columns = useMuenuColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
     return (
         <>

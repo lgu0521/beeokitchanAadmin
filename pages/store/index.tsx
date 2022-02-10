@@ -11,6 +11,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { StoreDTO } from "../../dto/store.dto";
 import { useAuth } from '../../hooks/AuthProvider';
 import { useRouter } from "next/router";
+import useDeleteStorage from "../../hooks/useDeleteStorage";
 interface Props {
     stores: StoreDTO[];
 }
@@ -60,13 +61,25 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
         setModifyModalOpen(true);
     };
 
-    const handleDeleteClick = () => {
+    const handleDeleteClick = async () => {
+        try {
+            await useDeleteStorage(modifyItem.image);
+            await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/store/delete", {
+                method: "POST",
+                body: JSON.stringify({ id: modifyItem.id }),
+            });
 
+            if (typeof window != null) {
+                window.location.reload();
+            }
+        } catch (e) {
+            alert("다시 시도해주세요");
+        }
     };
 
     const SetDialogOpen = (id: any) => {
+        setModifyItem(id);
         setDialogOpen(true);
-        console.log('삭제');
     }
 
     const columns = useStoreColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });

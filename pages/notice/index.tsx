@@ -9,6 +9,7 @@ import CreateModal from "../../components/modal/notice/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { NoticeDTO } from "../../dto/notice.dto";
+import useDeleteStorage from "../../hooks/useDeleteStorage";
 
 interface Props {
     notices: NoticeDTO[];
@@ -48,14 +49,26 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
         setModifyModalOpen(true);
     };
 
-    const handleDeleteClick = () => {
+    const SetDialogOpen = (id: any) => {
+        setModifyItem(id);
+    }
 
+    const handleDeleteClick = async () => {
+        try {
+            //await useDeleteStorage(modifyItem.image);
+            await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/notice/delete", {
+                method: "POST",
+                body: JSON.stringify({ id: modifyItem.id }),
+            });
+
+            if (typeof window != null) {
+                window.location.reload();
+            }
+        } catch (e) {
+            alert("다시 시도해주세요");
+        }
     };
 
-    const SetDialogOpen = (id: any) => {
-        setDialogOpen(true);
-        console.log('삭제');
-    }
 
     const columns = useNoticeColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
 
