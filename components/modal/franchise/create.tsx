@@ -1,37 +1,28 @@
-import { MenuCatagoryDTO, MenuDTO } from "../../../dto/menu.dto";
 import { useForm } from "react-hook-form";
-import { InputWrap, Description, Label, ModalBox } from "../../../styles/AdminPage.style";
+import { InputWrap, ModalBox } from "../../../styles/AdminPage.style";
 import Box from '@mui/material/Box';
-import Image from 'next/image';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { useState } from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
-import ImageUpload from '../../ImageUpload';
-import useDeleteStorage from "../../../hooks/useDeleteStorage";
-import useUploadStorage from "../../../hooks/useUploadStorage";
 import { FaqDTO } from "../../../dto/faq.dto";
+import TextField from '@mui/material/TextField';
+import useGetDate from "../../../hooks/useGetDate";
+import { useState } from "react";
 
 interface Props {
-  item: FaqDTO;
   isOpen: boolean;
   isClose: (click: boolean) => void;
 }
 
-const ModifyModal = ({ item, isOpen, isClose }: Props) => {
+const CreactModal = ({ isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [date, setDate] = useState<string>(item.datetime);
+  const [date, setDate] = useState<string>(useGetDate());
   const onSubmit = async (data: any) => {
     try {
-      await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/modify", {
+      await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/create", {
         method: "POST",
         body: JSON.stringify({
           ...data,
-          datetime:date,
-          id: item.id
+          datetime: date,
         } as FaqDTO),
       });
 
@@ -53,12 +44,12 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
           aria-describedby="modal-modal-description">
           <Box sx={ModalBox()}>
             <form onSubmit={handleSubmit(onSubmit)}>
-            <TextField
+              <TextField
                 id="datetime-local"
                 label="등록날짜(노출 순위가 달라집니다)"
                 type="datetime-local"
                 sx={{ width: 250 }}
-                defaultValue={item.datetime}
+                defaultValue={date}
                 onChange={(e) => setDate(e.target.value)}
                 InputLabelProps={{
                   shrink: true,
@@ -67,17 +58,15 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
               <InputWrap>
                 <TextField
                   id="component-outlined"
-                  defaultValue={item.title}
                   {...register("title", { required: true, maxLength: 20 })}
                   label="FAQ 제목"
                 />
               </InputWrap>
               <InputWrap>
                 <TextField
-                  id="component-outlined"
                   multiline
                   rows={10}
-                  defaultValue={item.content}
+                  id="component-outlined"
                   {...register("content", { required: true })}
                   label="FAQ 내용"
                 />
@@ -91,4 +80,4 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   );
 };
 
-export default ModifyModal;
+export default CreactModal;

@@ -2,21 +2,14 @@ import { MenuCatagoryDTO, MenuDTO } from "../../../dto/menu.dto";
 import { useForm } from "react-hook-form";
 import { InputWrap, Description, Label, ModalBox } from "../../../styles/AdminPage.style";
 import Box from '@mui/material/Box';
-import Image from 'next/image';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import ImageUpload from '../../ImageUpload';
-import useDeleteStorage from "../../../hooks/useDeleteStorage";
-import useUploadStorage from "../../../hooks/useUploadStorage";
-import { FaqDTO } from "../../../dto/faq.dto";
+import { FranChiseDTO } from "../../../dto/franchise.dto";
 
 interface Props {
-  item: FaqDTO;
+  item: FranChiseDTO;
   isOpen: boolean;
   isClose: (click: boolean) => void;
 }
@@ -30,9 +23,9 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
         method: "POST",
         body: JSON.stringify({
           ...data,
-          datetime:date,
+          datetime: date,
           id: item.id
-        } as FaqDTO),
+        } as FranChiseDTO),
       });
 
       if (typeof window != undefined) {
@@ -67,7 +60,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
               <InputWrap>
                 <TextField
                   id="component-outlined"
-                  defaultValue={item.title}
+                  defaultValue={item.step}
                   {...register("title", { required: true, maxLength: 20 })}
                   label="FAQ 제목"
                 />

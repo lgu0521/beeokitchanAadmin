@@ -29,7 +29,7 @@ const AlertDialog = ({ isOpen, isClose, handleDeleteClick }: Props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteClick}>취소</Button>
+          <Button onClick={() => isClose(false)}>취소</Button>
           <Button onClick={handleDeleteClick} autoFocus>
             확인
           </Button>
