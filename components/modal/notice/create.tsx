@@ -83,8 +83,11 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
               }}
             />
             <InputWrap>
-              <Label>공지사항 제목</Label>
-              <Input {...register("title", { required: true })} />
+              <TextField
+                id="datetime-local"
+                label="공지사항 제목"
+                {...register("title", { required: true })}
+              />
             </InputWrap>
             <InputWrap>
               <Label>공지사항 내용</Label>

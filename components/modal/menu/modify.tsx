@@ -65,18 +65,18 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
           aria-describedby="modal-modal-description">
           <Box sx={ModalBox()}>
             <form onSubmit={handleSubmit(onSubmit)}>
-            <InputWrap>
-            <TextField
-                id="datetime-local"
-                label="등록날짜(노출 순위가 달라집니다)"
-                type="datetime-local"
-                sx={{ width: 250 }}
-                defaultValue={date}
-                onChange={(e) => setDate(e.target.value)}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+              <InputWrap>
+                <TextField
+                  id="datetime-local"
+                  label="등록날짜(노출 순위가 달라집니다)"
+                  type="datetime-local"
+                  sx={{ width: 250 }}
+                  defaultValue={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
               </InputWrap>
               <InputWrap>
                 <Select

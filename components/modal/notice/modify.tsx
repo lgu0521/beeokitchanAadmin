@@ -1,13 +1,12 @@
 import dynamic from "next/dynamic";
 import { NoticeDTO } from "../../../dto/notice.dto";
 import { EditorProps, Editor } from "@toast-ui/react-editor";
-import styled from "styled-components";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef } from "react";
 import { TuiEditorWithForwardedProps } from "../../toastEditor";
 import React from "react";
 import { useRouter } from "next/dist/client/router";
-import { InputWrap, Input, Label, Description, ModalBox } from "../../../styles/AdminPage.style";
+import { InputWrap, Label, Description, ModalBox } from "../../../styles/AdminPage.style";
 import { useForm } from "react-hook-form";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -86,10 +85,11 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
               }}
             />
             <InputWrap>
-              <Label>공지사항 제목</Label>
-              <Input
-                {...register("title", { required: true })}
+              <TextField
+                id="datetime-local"
+                label="공지사항 제목"
                 defaultValue={item.title}
+                {...register("title", { required: true })}
               />
             </InputWrap>
             <InputWrap>

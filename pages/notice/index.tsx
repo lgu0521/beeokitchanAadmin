@@ -9,7 +9,6 @@ import CreateModal from "../../components/modal/notice/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { NoticeDTO } from "../../dto/notice.dto";
-import useDeleteStorage from "../../hooks/useDeleteStorage";
 
 interface Props {
     notices: NoticeDTO[];
