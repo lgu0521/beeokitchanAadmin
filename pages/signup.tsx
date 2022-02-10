@@ -11,7 +11,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 type LoginData = {
     email: string;
     password: string;
@@ -28,25 +27,28 @@ const AdminSignUpPage = () => {
 
     useEffect(() => {
         if (user) router.push("/");
-        if (error) alert('로그인 정보가 잘못 되었습니다');
+        else {
+            if (error) alert('로그인 정보가 잘못 되었습니다');
+        }
     }, [user, error]);
 
     const onSubmit = async (data: any) => {
         const res = await SignInWithEmailAndPassword(data.email, data.password);
+        console.log(data);
     };
 
     return (
         <>
             <Card sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        maxWidth: 600,
-                        p: 1,
-                        m: 1,
-                        margin: '0 auto'
-                    }}>
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                maxWidth: 600,
+                p: 1,
+                m: 1,
+                margin: '0 auto'
+            }}>
                 <CardMedia
                     component="img"
                     alt="green iguana"
@@ -76,21 +78,21 @@ const AdminSignUpPage = () => {
                                             label="비밀번호를 입력해주세요"
                                         />
                                     </InputWrap>
+                                    <CardActions
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            flexDirection: 'row',
+                                            p: 1,
+                                            m: 1,
+                                        }}>
+                                        <Button type="submit" variant="contained">로그인</Button>
+                                    </CardActions>
                                 </form>
                             )}
                     </Wrap>
                 </CardContent>
-                <CardActions
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        p: 1,
-                        m: 1,
-                    }}>
-                    <Button type="submit" variant="contained">로그인</Button>
-                </CardActions>
             </Card>
 
         </>
