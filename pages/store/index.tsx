@@ -38,7 +38,6 @@ const defaultItem: StoreDTO = {
 const AdminStorePage: NextPage<Props> = ({ stores }) => {
     const { user } = useAuth();
     const router = useRouter();
-    router.replace(router.asPath);
     const [loading, setLoading] = useState<boolean>(false);
     if (!user) {
         router.push('/signup');
@@ -77,6 +76,7 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
                 method: "POST",
                 body: JSON.stringify({ id: modifyItem.id }),
             });
+            router.replace(router.asPath);
             router.reload()
         } catch (e) {
             alert("다시 시도해주세요");
