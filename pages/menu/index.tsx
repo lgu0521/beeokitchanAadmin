@@ -50,6 +50,7 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
     const [open, setOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
+    const deleteStorage = useDeleteStorage;
     const madeRows = () => {
         menuByCatagory.forEach(catagory => {
             catagory.menus.forEach(menu => {
@@ -77,7 +78,7 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
     const HandleDeleteClick = async () => {
         setLoading(true);
         try {
-            await useDeleteStorage(modifyItem.image);
+            await deleteStorage(modifyItem.image);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/menu/delete", {
                 method: "POST",
                 body: JSON.stringify({ id: modifyItem.id }),

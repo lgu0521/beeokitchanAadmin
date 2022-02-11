@@ -41,6 +41,7 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
     const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
     const [modifyModalOpen, setModifyModalOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+    const deleteStorage = useDeleteStorage;
 
     const madeRows = () => {
         banners.forEach(banner => {
@@ -61,7 +62,7 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
 
     const HandleDeleteClick = async () => {
         try {
-            await useDeleteStorage(modifyItem);
+            await deleteStorage(modifyItem);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/banner/delete", {
                 method: "POST",
                 body: JSON.stringify({ id: modifyItem.id }),

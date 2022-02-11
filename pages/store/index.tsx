@@ -48,6 +48,7 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
     const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
     const [modifyModalOpen, setModifyModalOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+    const deleteStorage = useDeleteStorage;
 
     const madeRows = () => {
         stores.forEach(store => {
@@ -70,7 +71,7 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
         try {
             setLoading(true);
             setDialogOpen(false);
-            await useDeleteStorage(modifyItem.image);
+            await deleteStorage(modifyItem.image);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/store/delete", {
                 method: "POST",
                 body: JSON.stringify({ id: modifyItem.id }),

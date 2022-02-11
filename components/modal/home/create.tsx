@@ -23,9 +23,10 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
   const [date, setDate] = useState<string>(useGetDate());
   const [loading, setLoading] = useState<boolean>(false);
+  const uploadStorage = useUploadStorage;
 
   const OnSubmit = async (data: any) => {
-    let newImageStorage = await useUploadStorage(newMenuImage, "storeImage");
+    let newImageStorage = await uploadStorage(newMenuImage, "storeImage");
 
     try {
       setLoading(true);

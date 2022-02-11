@@ -20,11 +20,13 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
   const [date, setDate] = useState<string>(useGetDate());
   const [loading, setLoading] = useState<boolean>(false);
+  const uploadStorage = useUploadStorage;
+  
   const OnSubmit = async (data: any) => {
     // 이미지 변경시, 기존 이미지 삭제 후 교체
     setLoading(true);
     isClose(false);
-    const newImageStorage = await useUploadStorage(newMenuImage, "storeImage");
+    const newImageStorage = await uploadStorage(newMenuImage, "storeImage");
 
     try {
       const res = await fetch(
