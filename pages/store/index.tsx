@@ -36,6 +36,7 @@ const defaultItem: StoreDTO = {
 
 
 const AdminStorePage: NextPage<Props> = ({ stores }) => {
+    console.log(stores);
     const { user } = useAuth();
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
