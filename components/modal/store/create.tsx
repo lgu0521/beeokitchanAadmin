@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { InputWrap, Description, Label, ModalBox, Input, TextArea } from "../../../styles/AdminPage.style";
+import { InputWrap, Description, Label, ModalBox } from "../../../styles/AdminPage.style";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';

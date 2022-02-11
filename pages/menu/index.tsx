@@ -1,5 +1,5 @@
 import { GetStaticProps, NextPage } from "next";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { MenuCatagoryDTO, MenusWithCatagoryDTO, MenuDTO } from "../../dto/menu.dto";
 import { DataGrid, GridApiRef } from '@mui/x-data-grid';

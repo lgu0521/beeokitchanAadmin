@@ -5,14 +5,12 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import ImageUpload from '../../ImageUpload';
-import useDeleteStorage from "../../../hooks/useDeleteStorage";
 import useUploadStorage from "../../../hooks/useUploadStorage";
 import TextField from '@mui/material/TextField';
 import { BannerDTO } from "../../../dto/banner.dto";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import useGetDate from "../../../hooks/useGetDate";
-import { SignalCellularNullOutlined } from "@mui/icons-material";
 
 interface Props {
   isOpen: boolean;

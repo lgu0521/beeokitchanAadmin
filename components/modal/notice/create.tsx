@@ -4,7 +4,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef, useState } from "react";
 import { TuiEditorWithForwardedProps } from "../../toastEditor";
 import React from "react";
-import { InputWrap, Input, Label, Description, ModalBox } from "../../../styles/AdminPage.style";
+import { InputWrap, Label, Description, ModalBox } from "../../../styles/AdminPage.style";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/dist/client/router";
 import TextField from '@mui/material/TextField';
@@ -55,9 +55,8 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
           }),
         }
       );
-      if (res) {
-        console.log(res);
-        router.push("/notice");
+      if (res && typeof window != null) {
+        window.location.reload();
       }
     }
   };

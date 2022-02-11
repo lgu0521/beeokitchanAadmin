@@ -58,8 +58,8 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
           }),
         }
       );
-      if (res) {
-        router.push("/notice");
+      if (res && typeof window != null) {
+        window.location.reload();
       }
     }
   };

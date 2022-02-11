@@ -1,18 +1,11 @@
-import { MenuCatagoryDTO, MenuDTO } from "../../../dto/menu.dto";
 import { useForm } from "react-hook-form";
-import { InputWrap, Description, Label, ModalBox } from "../../../styles/AdminPage.style";
+import { InputWrap, ModalBox } from "../../../styles/AdminPage.style";
 import Box from '@mui/material/Box';
 import Image from 'next/image';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import ImageUpload from '../../ImageUpload';
-import useDeleteStorage from "../../../hooks/useDeleteStorage";
-import useUploadStorage from "../../../hooks/useUploadStorage";
 import { FaqDTO } from "../../../dto/faq.dto";
 
 interface Props {
