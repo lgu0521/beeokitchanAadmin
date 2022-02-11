@@ -60,7 +60,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
           }),
         }
       );
-      router.replace(router.asPath);
+      router.reload()
     }
   };
 

@@ -72,7 +72,7 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
                 body: JSON.stringify({ id: modifyItem.id }),
             });
 
-            router.replace(router.asPath);
+            router.reload()
         } catch (e) {
             alert("다시 시도해주세요");
         }

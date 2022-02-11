@@ -30,7 +30,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
     const newImageStorage = await uploadStorage(newMenuImage, "storeImage");
 
     try {
-      const res = await fetch(
+      await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/api/store/create",
         {
           method: "POST",
@@ -41,7 +41,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
           } as StoreDTO),
         }
       );
-      router.replace(router.asPath);
+      router.reload();
     } catch (e) {
       alert("다시 시도해주세요");
     }
