@@ -1,11 +1,31 @@
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
-const CircularIndeterminate = () => {
+interface Props {
+    isOpen: boolean;
+}
+
+
+const CircularIndeterminate = ({ isOpen }: Props) => {
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CircularProgress />
-        </Box>
+        <>
+            <div>
+                <Modal
+                    open={isOpen}>
+                    <Box sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        alignContent: 'center',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        height: '100%',
+                    }}>
+                        <CircularProgress />
+                    </Box>
+                </Modal>
+            </div>
+        </>
     );
 }
 

@@ -7,6 +7,7 @@ import { FaqDTO } from "../../../dto/faq.dto";
 import TextField from '@mui/material/TextField';
 import useGetDate from "../../../hooks/useGetDate";
 import { useState } from "react";
+import CircularProgress from '../../progress';
 
 interface Props {
   isOpen: boolean;
@@ -16,8 +17,12 @@ interface Props {
 const CreactModal = ({ isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [date, setDate] = useState<string>(useGetDate());
+  const [loading, setLoading] = useState<boolean>(false);
+
   const OnSubmit = async (data: any) => {
     try {
+      setLoading(true);
+    isClose(false);
       await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/create", {
         method: "POST",
         body: JSON.stringify({
@@ -36,6 +41,7 @@ const CreactModal = ({ isOpen, isClose }: Props) => {
 
   return (
     <>
+     <CircularProgress isOpen={loading}/>
       <div>
         <Modal
           open={isOpen}

@@ -9,7 +9,7 @@ import useUploadStorage from "../../../hooks/useUploadStorage";
 import { StoreDTO } from "../../../dto/store.dto";
 import TextField from '@mui/material/TextField';
 import useGetDate from "../../../hooks/useGetDate";
-
+import CircularProgress from '../../progress';
 interface Props {
   isOpen: boolean;
   isClose: (click: boolean) => void;
@@ -19,9 +19,11 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
   const [date, setDate] = useState<string>(useGetDate());
-  
+  const [loading, setLoading] = useState<boolean>(false);
   const OnSubmit = async (data: any) => {
     // 이미지 변경시, 기존 이미지 삭제 후 교체
+    setLoading(true);
+    isClose(false);
     const newImageStorage = await useUploadStorage(newMenuImage, "storeImage");
 
     try {
@@ -48,6 +50,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   //이미지 권장설명 수정 필요
   return (
     <>
+     <CircularProgress isOpen={loading}/>
       <div>
         <Modal
           open={isOpen}

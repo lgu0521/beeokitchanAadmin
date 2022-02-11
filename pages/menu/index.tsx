@@ -15,6 +15,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { useAuth } from '../../hooks/AuthProvider';
 import { useRouter } from "next/router";
+import CircularProgress from '../../components/progress';
 
 interface Props {
     menuByCatagory: MenusWithCatagoryDTO[];
@@ -44,6 +45,7 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
     if (!user) {
         router.push('/signup');
     }
+    const [loading, setLoading] = useState<boolean>(false);
     const [modifyItem, setModifyItem] = useState(defaultItem);
     const [open, setOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
@@ -73,6 +75,7 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
     }
 
     const HandleDeleteClick = async () => {
+        setLoading(true);
         try {
             await useDeleteStorage(modifyItem.image);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/menu/delete", {
@@ -139,6 +142,7 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
                 <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
                     HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
+                <CircularProgress isOpen={loading}/>
             </Card>
         </>
     );

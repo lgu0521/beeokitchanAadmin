@@ -7,6 +7,7 @@ import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { FaqDTO } from "../../../dto/faq.dto";
+import CircularProgress from '../../progress';
 
 interface Props {
   item: FaqDTO;
@@ -17,13 +18,17 @@ interface Props {
 const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [date, setDate] = useState<string>(item.datetime);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const OnSubmit = async (data: any) => {
+    setLoading(true);
+    isClose(false);
     try {
       await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/modify", {
         method: "POST",
         body: JSON.stringify({
           ...data,
-          datetime:date,
+          datetime: date,
           id: item.id
         } as FaqDTO),
       });
@@ -38,6 +43,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
 
   return (
     <>
+      <CircularProgress isOpen={loading} />
       <div>
         <Modal
           open={isOpen}
@@ -46,7 +52,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
           aria-describedby="modal-modal-description">
           <Box sx={ModalBox()}>
             <form onSubmit={handleSubmit(OnSubmit)}>
-            <TextField
+              <TextField
                 id="datetime-local"
                 label="등록날짜(노출 순위가 달라집니다)"
                 type="datetime-local"

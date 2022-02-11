@@ -14,6 +14,7 @@ import { FranChiseDTO } from "../../dto/franchise.dto";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '../../components/progress';
 
 interface Props {
     franchises: FranChiseDTO[],
@@ -38,6 +39,7 @@ const AdminFranChisePage: NextPage<Props> = ({ franchises }) => {
     const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
     const [modifyModalOpen, setModifyModalOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const madeRows = () => {
         franchises.forEach(franchise => {
@@ -57,6 +59,7 @@ const AdminFranChisePage: NextPage<Props> = ({ franchises }) => {
     };
 
     const HandleDeleteClick = async () => {
+        setLoading(true);
         try {
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/franchise/delete", {
                 method: "POST",
@@ -131,6 +134,7 @@ const AdminFranChisePage: NextPage<Props> = ({ franchises }) => {
                     HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
             </Card>
+            <CircularProgress isOpen={loading}/>
         </>
     );
 }

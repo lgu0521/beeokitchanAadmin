@@ -11,6 +11,7 @@ import { BannerDTO } from "../../../dto/banner.dto";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import useGetDate from "../../../hooks/useGetDate";
+import CircularProgress from '../../progress';
 
 interface Props {
   isOpen: boolean;
@@ -21,10 +22,14 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
   const [date, setDate] = useState<string>(useGetDate());
+  const [loading, setLoading] = useState<boolean>(false);
+
   const OnSubmit = async (data: any) => {
     let newImageStorage = await useUploadStorage(newMenuImage, "storeImage");
 
     try {
+      setLoading(true);
+    isClose(false);
       const res = await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/api/banner/create",
         {
@@ -48,6 +53,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   //이미지 권장설명 수정 필요
   return (
     <>
+    <CircularProgress isOpen={loading}/>
       <div>
         <Modal
           open={isOpen}

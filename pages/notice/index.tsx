@@ -14,6 +14,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { useAuth } from '../../hooks/AuthProvider';
 import { useRouter } from "next/router";
+import CircularProgress from '../../components/progress';
 
 interface Props {
     notices: NoticeDTO[];
@@ -35,6 +36,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
     }
     let rows: any[] = [];
     let rowNumber = 0;
+    const [loading, setLoading] = useState<boolean>(false);
     const [modifyItem, setModifyItem] = useState(defaultItem);
     const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
     const [modifyModalOpen, setModifyModalOpen] = useState<boolean>(false);
@@ -64,6 +66,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
 
     const HandleDeleteClick = async () => {
         try {
+            setLoading(true);
             //await useDeleteStorage(modifyItem.image);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/notice/delete", {
                 method: "POST",
@@ -120,7 +123,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
                             hideFooterSelectedRowCount />
                     </div>
                 </Box>
-
+                <CircularProgress isOpen={loading}/>
                 <CreateModal
                     isOpen={createModalOpen}
                     isClose={(click: boolean) => setCreateModalOpen(click)} />

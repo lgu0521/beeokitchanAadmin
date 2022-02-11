@@ -14,7 +14,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { useAuth } from '../../hooks/AuthProvider';
 import { useRouter } from "next/router";
-
+import CircularProgress from '../../components/progress';
 interface Props {
     faqs: FaqDTO[];
 }
@@ -38,7 +38,7 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
     const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
     const [modifyModalOpen, setModifyModalOpen] = useState<boolean>(false);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-
+    const [loading, setLoading] = useState<boolean>(false);
     const madeRows = () => {
         faqs.forEach(faq => {
             rowNumber = rowNumber + 1;
@@ -62,6 +62,7 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
     }
 
     const HandleDeleteClick = async () => {
+        setLoading(true);
         try {
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/delete", {
                 method: "POST",
@@ -96,39 +97,40 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
                     </Box>
                 </CardContent>
                 <CardContent>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        p: 1,
-                        m: 1,
-                        // bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}
-                >
-                    <div style={{ height: 630, width: '100%', background: 'white', margin: 'auto' }}>
-                        <DataGrid
-                            rows={rows}
-                            columns={columns}
-                            pageSize={10}
-                            rowsPerPageOptions={[10]}
-                            hideFooterSelectedRowCount />
-                    </div>
-                </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                            p: 1,
+                            m: 1,
+                            // bgcolor: 'background.paper',
+                            borderRadius: 1,
+                        }}
+                    >
+                        <div style={{ height: 630, width: '100%', background: 'white', margin: 'auto' }}>
+                            <DataGrid
+                                rows={rows}
+                                columns={columns}
+                                pageSize={10}
+                                rowsPerPageOptions={[10]}
+                                hideFooterSelectedRowCount />
+                        </div>
+                    </Box>
 
-                <CreateModal
-                    isOpen={createModalOpen}
-                    isClose={(click: boolean) => setCreateModalOpen(click)} />
-                <ModifyModal
-                    key={modifyItem.id}
-                    isOpen={modifyModalOpen}
-                    isClose={(click: boolean) => setModifyModalOpen(click)}
-                    item={modifyItem} />
-                <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
-                    HandleDeleteClick={HandleDeleteClick} />
+                    <CreateModal
+                        isOpen={createModalOpen}
+                        isClose={(click: boolean) => setCreateModalOpen(click)} />
+                    <ModifyModal
+                        key={modifyItem.id}
+                        isOpen={modifyModalOpen}
+                        isClose={(click: boolean) => setModifyModalOpen(click)}
+                        item={modifyItem} />
+                    <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
+                        HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
             </Card>
+            <CircularProgress isOpen={loading} />
         </>
     );
 }

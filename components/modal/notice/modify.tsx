@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import { useState } from "react";
+import CircularProgress from '../../progress';
 
 interface Props {
   item: NoticeDTO;
@@ -41,9 +42,10 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [date, setDate] = useState<string>(item.datetime);
-
+  const [loading, setLoading] = useState<boolean>(false);
   const OnSubmit = async (data: any) => {
-    console.log(data);
+    setLoading(true);
+    isClose(false);
     if (editorRef.current && data.title) {
       const content = editorRef.current.getInstance().getMarkdown();
       const res = await fetch(
@@ -66,6 +68,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
 
   return (
     <div>
+       <CircularProgress isOpen={loading}/>
       <Modal
         open={isOpen}
         onClose={() => isClose(false)}

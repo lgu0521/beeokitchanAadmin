@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import { BannerDTO } from "../../../dto/banner.dto";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import CircularProgress from '../../progress';
 
 interface Props {
   item: BannerDTO;
@@ -24,8 +25,12 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   const [date, setDate] = useState<string>(item.datetime);
   const deleteStorage = useDeleteStorage;
   const uploadStorage = useUploadStorage;
+  const [loading, setLoading] = useState<boolean>(false);
+
   const OnSubmit = async (data: any) => {
     let newImageStorage = null;
+    setLoading(true);
+    isClose(false);
     if (newMenuImage) {
       const res = await deleteStorage(item);
       if(res) newImageStorage = await uploadStorage(newMenuImage, "storeImage");
@@ -57,6 +62,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   //이미지 권장설명 수정 필요
   return (
     <>
+    <CircularProgress isOpen={loading}/>
       <div>
         <Modal
           open={isOpen}

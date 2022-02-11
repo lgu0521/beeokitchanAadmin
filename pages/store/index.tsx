@@ -15,6 +15,7 @@ import useDeleteStorage from "../../hooks/useDeleteStorage";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '../../components/progress';
 interface Props {
     stores: StoreDTO[];
 }
@@ -37,6 +38,7 @@ const defaultItem: StoreDTO = {
 const AdminStorePage: NextPage<Props> = ({ stores }) => {
     const { user } = useAuth();
     const router = useRouter();
+    const [loading, setLoading] = useState<boolean>(false);
     if (!user) {
         router.push('/signup');
     }
@@ -66,6 +68,8 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
 
     const HandleDeleteClick = async () => {
         try {
+            setLoading(true);
+            setDialogOpen(false);
             await useDeleteStorage(modifyItem.image);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/store/delete", {
                 method: "POST",
@@ -138,6 +142,7 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
                         isOpen={dialogOpen}
                         isClose={(click: boolean) => setDialogOpen(click)}
                         HandleDeleteClick={HandleDeleteClick} />
+                    <CircularProgress isOpen={loading}/>
                 </CardContent>
             </Card>
         </>

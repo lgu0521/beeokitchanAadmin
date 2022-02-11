@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import useGetDate from "../../../hooks/useGetDate";
+import CircularProgress from '../../progress';
 
 interface Props {
   isOpen: boolean;
@@ -40,8 +41,11 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [date, setDate] = useState<string>(useGetDate());
+  const [loading, setLoading] = useState<boolean>(false);
 
   const OnSubmit = async (data: any) => {
+    setLoading(true);
+    isClose(false);
     if (editorRef.current && data.title) {
       const content = editorRef.current.getInstance().getMarkdown();
       const res = await fetch(
@@ -63,6 +67,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
 
   return (
     <div>
+       <CircularProgress isOpen={loading}/>
       <Modal
         open={isOpen}
         onClose={() => isClose(false)}

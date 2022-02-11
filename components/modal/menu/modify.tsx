@@ -11,6 +11,7 @@ import useUploadStorage from "../../../hooks/useUploadStorage";
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import CircularProgress from '../../progress';
 
 interface Props {
   item: MenuDTO;
@@ -25,15 +26,18 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
   const [date, setDate] = useState<string>(item.datetime);
   const deleteStorage = useDeleteStorage;
   const uploadStorage = useUploadStorage;
+  const [loading, setLoading] = useState<boolean>(false);
 
   const OnSubmit = async (data: any) => {
     let newImageStorage = null;
+    setLoading(true);
+    isClose(false);
 
     if (newMenuImage) {
       await deleteStorage(item.image);
       newImageStorage = await uploadStorage(newMenuImage, "menuImage");
     }
-    
+
     try {
       const res = await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/api/menu/modify",
@@ -59,6 +63,7 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
   //이미지 권장설명 수정 필요
   return (
     <>
+    <CircularProgress isOpen={loading}/>
       <div>
         <Modal
           open={isOpen}

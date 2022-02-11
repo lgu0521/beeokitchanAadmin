@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { FranChiseDTO } from "../../../dto/franchise.dto";
+import CircularProgress from '../../progress';
 
 interface Props {
   item: FranChiseDTO;
@@ -16,7 +17,10 @@ interface Props {
 const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [date, setDate] = useState<string>(item.datetime);
+  const [loading, setLoading] = useState<boolean>(false);
   const OnSubmit = async (data: any) => {
+    setLoading(true);
+    isClose(false);
     try {
       await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/franchise/modify", {
         method: "POST",
@@ -37,6 +41,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
 
   return (
     <>
+     <CircularProgress isOpen={loading}/>
       <div>
         <Modal
           open={isOpen}

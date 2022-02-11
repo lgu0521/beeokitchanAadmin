@@ -9,7 +9,6 @@ type Props = {
 };
 const ImageUpload = ({ id, defaultImage, onImageUpload }: Props) => {
   const [image, setImage] = useState<string>(defaultImage ? defaultImage : '');
-  console.log(defaultImage);
   const addImage = (e: any) => {
     onImageUpload(e.target.files[0]);
     const nowImageUrl = URL.createObjectURL(e.target.files[0]);
