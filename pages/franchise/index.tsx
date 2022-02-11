@@ -56,7 +56,7 @@ const AdminFranChisePage: NextPage<Props> = ({ franchises }) => {
         setModifyModalOpen(true);
     };
 
-    const handleDeleteClick = async () => {
+    const HandleDeleteClick = async () => {
         try {
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/franchise/delete", {
                 method: "POST",
@@ -76,7 +76,7 @@ const AdminFranChisePage: NextPage<Props> = ({ franchises }) => {
         setDialogOpen(true);
     }
 
-    const columns = useFranChiseColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
+    const columns = useFranChiseColumns({ handleEditClick: handleEditClick, HandleDeleteClick: SetDialogOpen });
 
     return (
         <>
@@ -128,7 +128,7 @@ const AdminFranChisePage: NextPage<Props> = ({ franchises }) => {
                 <AlertDialog
                     isOpen={dialogOpen}
                     isClose={(click: boolean) => setDialogOpen(click)}
-                    handleDeleteClick={handleDeleteClick} />
+                    HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
             </Card>
         </>

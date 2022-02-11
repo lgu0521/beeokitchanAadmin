@@ -22,7 +22,7 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
   const [date, setDate] = useState<string>(useGetDate());
-  const onSubmit = async (data: any) => {
+  const OnSubmit = async (data: any) => {
     const newImageStorage = await useUploadStorage(newMenuImage, "menuImage");
 
     try {
@@ -56,7 +56,7 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
           <Box sx={ModalBox()}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(OnSubmit)}>
             <TextField
                 id="datetime-local"
                 label="등록날짜(노출 순위가 달라집니다)"

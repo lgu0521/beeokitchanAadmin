@@ -8,10 +8,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 type Props = {
   isOpen: boolean;
   isClose: (click: boolean) => void;
-  handleDeleteClick: () => void
+  HandleDeleteClick: () => void
 
 }
-const AlertDialog = ({ isOpen, isClose, handleDeleteClick }: Props) => {
+const AlertDialog = ({ isOpen, isClose, HandleDeleteClick }: Props) => {
   return (
     <div>
       <Dialog
@@ -30,7 +30,7 @@ const AlertDialog = ({ isOpen, isClose, handleDeleteClick }: Props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => isClose(false)}>취소</Button>
-          <Button onClick={handleDeleteClick} autoFocus>
+          <Button onClick={HandleDeleteClick} autoFocus>
             확인
           </Button>
         </DialogActions>

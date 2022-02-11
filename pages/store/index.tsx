@@ -64,7 +64,7 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
         setModifyModalOpen(true);
     };
 
-    const handleDeleteClick = async () => {
+    const HandleDeleteClick = async () => {
         try {
             await useDeleteStorage(modifyItem.image);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/store/delete", {
@@ -85,7 +85,7 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
         setDialogOpen(true);
     }
 
-    const columns = useStoreColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
+    const columns = useStoreColumns({ handleEditClick: handleEditClick, HandleDeleteClick: SetDialogOpen });
 
     return (
         <>
@@ -137,7 +137,7 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
                     <AlertDialog
                         isOpen={dialogOpen}
                         isClose={(click: boolean) => setDialogOpen(click)}
-                        handleDeleteClick={handleDeleteClick} />
+                        HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
             </Card>
         </>

@@ -32,7 +32,7 @@ const AdminSignUpPage = () => {
         }
     }, [user, error]);
 
-    const onSubmit = async (data: any) => {
+    const OnSubmit = async (data: any) => {
         const res = await SignInWithEmailAndPassword(data.email, data.password);
         console.log(data);
     };
@@ -61,7 +61,7 @@ const AdminSignUpPage = () => {
                         {user ? (
                             <Button onClick={LoginOut}>로그아웃</Button>
                         ) : (
-                                <form onSubmit={handleSubmit(onSubmit)}>
+                                <form onSubmit={handleSubmit(OnSubmit)}>
                                     <InputWrap>
                                         <TextField
                                             type="email"

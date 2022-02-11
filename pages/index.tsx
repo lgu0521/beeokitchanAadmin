@@ -54,12 +54,12 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
 
     madeRows();
 
-    const handleEditClick = (id: any) => {
+    const HandleEditClick = (id: any) => {
         setModifyItem(id);
         setModifyModalOpen(true);
     };
 
-    const handleDeleteClick = async () => {
+    const HandleDeleteClick = async () => {
         try {
             await useDeleteStorage(modifyItem);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/banner/delete", {
@@ -80,7 +80,7 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
         setDialogOpen(true);
     }
 
-    const columns = useMainColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
+    const columns = useMainColumns({ handleEditClick: HandleEditClick, HandleDeleteClick: SetDialogOpen });
 
     return (
         <>
@@ -132,7 +132,7 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
                 <AlertDialog
                     isOpen={dialogOpen}
                     isClose={(click: boolean) => setDialogOpen(click)}
-                    handleDeleteClick={handleDeleteClick} />
+                    HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
             </Card>
         </>

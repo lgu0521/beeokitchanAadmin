@@ -72,7 +72,7 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
         setDialogOpen(true);
     }
 
-    const handleDeleteClick = async () => {
+    const HandleDeleteClick = async () => {
         try {
             await useDeleteStorage(modifyItem.image);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/menu/delete", {
@@ -87,7 +87,7 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
             alert("다시 시도해주세요");
         }
     };
-    const columns = useMuenuColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
+    const columns = useMuenuColumns({ handleEditClick: handleEditClick, HandleDeleteClick: SetDialogOpen });
     return (
         <>
             <Card sx={{ width: '100%', borderRadius: '12px' }}>
@@ -137,7 +137,7 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
                     item={modifyItem}
                     itemCatagory={catagory} />
                 <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
-                    handleDeleteClick={handleDeleteClick} />
+                    HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
             </Card>
         </>

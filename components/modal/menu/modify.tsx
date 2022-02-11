@@ -23,15 +23,17 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
   const [date, setDate] = useState<string>(item.datetime);
+  const deleteStorage = useDeleteStorage;
+  const uploadStorage = useUploadStorage;
 
-  const onSubmit = async (data: any) => {
+  const OnSubmit = async (data: any) => {
     let newImageStorage = null;
-    console.log(data);
+
     if (newMenuImage) {
-      await useDeleteStorage(item.image);
-      newImageStorage = await useUploadStorage(newMenuImage, "menuImage");
+      await deleteStorage(item.image);
+      newImageStorage = await uploadStorage(newMenuImage, "menuImage");
     }
-    console.log(data);
+    
     try {
       const res = await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/api/menu/modify",
@@ -64,7 +66,7 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
           <Box sx={ModalBox()}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(OnSubmit)}>
               <InputWrap>
                 <TextField
                   id="datetime-local"

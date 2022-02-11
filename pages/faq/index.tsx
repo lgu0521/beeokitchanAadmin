@@ -61,7 +61,7 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
         setDialogOpen(true);
     }
 
-    const handleDeleteClick = async () => {
+    const HandleDeleteClick = async () => {
         try {
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/delete", {
                 method: "POST",
@@ -75,7 +75,7 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
             alert("다시 시도해주세요");
         }
     };
-    const columns = useFaqColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
+    const columns = useFaqColumns({ handleEditClick: handleEditClick, HandleDeleteClick: SetDialogOpen });
 
     return (
         <>
@@ -126,7 +126,7 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
                     isClose={(click: boolean) => setModifyModalOpen(click)}
                     item={modifyItem} />
                 <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
-                    handleDeleteClick={handleDeleteClick} />
+                    HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
             </Card>
         </>

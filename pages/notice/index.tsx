@@ -62,7 +62,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
         setModifyItem(id);
     }
 
-    const handleDeleteClick = async () => {
+    const HandleDeleteClick = async () => {
         try {
             //await useDeleteStorage(modifyItem.image);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/notice/delete", {
@@ -79,7 +79,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
     };
 
 
-    const columns = useNoticeColumns({ handleEditClick: handleEditClick, handleDeleteClick: SetDialogOpen });
+    const columns = useNoticeColumns({ handleEditClick: handleEditClick, HandleDeleteClick: SetDialogOpen });
 
     return (
         <>
@@ -129,7 +129,7 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
                     isClose={(click: boolean) => setModifyModalOpen(click)}
                     item={modifyItem} />
                 <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
-                    handleDeleteClick={handleDeleteClick} />
+                    HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
             </Card>
         </>

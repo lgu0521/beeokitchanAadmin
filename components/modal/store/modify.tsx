@@ -20,12 +20,16 @@ interface Props {
 const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
-  const [date, setDate] = useState<string>(item.datetime);
-  const onSubmit = async (data: any) => {
+  const [date, setDate] = useState<string>(item.datetime);  
+  const deleteStorage = useDeleteStorage;
+  const uploadStorage = useUploadStorage;
+
+
+  const OnSubmit = async (data: any) => {
     let newImageStorage = null;
     if (newMenuImage) {
-      await useDeleteStorage(item.image);
-      newImageStorage = await useUploadStorage(newMenuImage, "storeImage");
+      await deleteStorage(item.image);
+      newImageStorage = await uploadStorage(newMenuImage, "storeImage");
     }
 
 
@@ -61,7 +65,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
           <Box sx={ModalBox()}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(OnSubmit)}>
               <TextField
                 id="datetime-local"
                 label="등록날짜(노출 순위가 달라집니다)"

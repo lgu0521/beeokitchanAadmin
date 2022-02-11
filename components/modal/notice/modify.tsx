@@ -42,7 +42,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [date, setDate] = useState<string>(item.datetime);
 
-  const onSubmit = async (data: any) => {
+  const OnSubmit = async (data: any) => {
     console.log(data);
     if (editorRef.current && data.title) {
       const content = editorRef.current.getInstance().getMarkdown();
@@ -72,7 +72,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
         <Box sx={ModalBox(1000)}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(OnSubmit)}>
             <TextField
               id="datetime-local"
               label="등록날짜(노출 순위가 달라집니다)"

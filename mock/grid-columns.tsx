@@ -7,9 +7,9 @@ import CancelIcon from '@mui/icons-material/Close';
 
 interface handleClick {
     handleEditClick: (item: any) => void;
-    handleDeleteClick: (item: any) => void;
+    HandleDeleteClick: (item: any) => void;
 }
-export const useMuenuColumns = ({ handleEditClick, handleDeleteClick }: handleClick): GridEnrichedColDef[] => {
+export const useMuenuColumns = ({ handleEditClick, HandleDeleteClick }: handleClick): GridEnrichedColDef[] => {
     return [
         { field: 'number', headerName: 'ID', width: 70, type: 'number' },
         { field: 'datetime', headerName: '등록일', width: 150 },
@@ -34,7 +34,7 @@ export const useMuenuColumns = ({ handleEditClick, handleDeleteClick }: handleCl
                 <GridActionsCellItem
                     icon={<DeleteIcon />}
                     label="Delete"
-                    onClick={() => handleDeleteClick(row)}
+                    onClick={() => HandleDeleteClick(row)}
                     color="inherit"
                 />,
             ],
@@ -43,7 +43,7 @@ export const useMuenuColumns = ({ handleEditClick, handleDeleteClick }: handleCl
 }
 
 
-export const useStoreColumns = ({ handleEditClick, handleDeleteClick }: handleClick): GridEnrichedColDef[] => {
+export const useStoreColumns = ({ handleEditClick, HandleDeleteClick }: handleClick): GridEnrichedColDef[] => {
     return [
         { field: 'number', headerName: 'ID', width: 70, type: 'number' },
         { field: 'datetime', headerName: '등록일', width: 150 },
@@ -67,7 +67,7 @@ export const useStoreColumns = ({ handleEditClick, handleDeleteClick }: handleCl
                 <GridActionsCellItem
                     icon={<DeleteIcon />}
                     label="Delete"
-                    onClick={() => handleDeleteClick(row)}
+                    onClick={() => HandleDeleteClick(row)}
                     color="inherit"
                 />,
             ],
@@ -76,7 +76,7 @@ export const useStoreColumns = ({ handleEditClick, handleDeleteClick }: handleCl
 }
 
 
-export const useFaqColumns = ({ handleEditClick, handleDeleteClick }: handleClick): GridEnrichedColDef[] => {
+export const useFaqColumns = ({ handleEditClick, HandleDeleteClick }: handleClick): GridEnrichedColDef[] => {
     return [
         { field: 'number', headerName: 'ID', width: 70, type: 'number' },
         { field: 'datetime', headerName: '등록일', width: 150 },
@@ -99,7 +99,7 @@ export const useFaqColumns = ({ handleEditClick, handleDeleteClick }: handleClic
                 <GridActionsCellItem
                     icon={<DeleteIcon />}
                     label="Delete"
-                    onClick={() => handleDeleteClick(row)}
+                    onClick={() => HandleDeleteClick(row)}
                     color="inherit"
                 />,
             ],
@@ -108,7 +108,7 @@ export const useFaqColumns = ({ handleEditClick, handleDeleteClick }: handleClic
 }
 
 
-export const useNoticeColumns = ({ handleEditClick, handleDeleteClick }: handleClick): GridEnrichedColDef[] => {
+export const useNoticeColumns = ({ handleEditClick, HandleDeleteClick }: handleClick): GridEnrichedColDef[] => {
     return [
         { field: 'number', headerName: 'ID', width: 70, type: 'number' },
         { field: 'datetime', headerName: '등록일', width: 150 },
@@ -132,7 +132,7 @@ export const useNoticeColumns = ({ handleEditClick, handleDeleteClick }: handleC
                 <GridActionsCellItem
                     icon={<DeleteIcon />}
                     label="Delete"
-                    onClick={() => handleDeleteClick(row)}
+                    onClick={() => HandleDeleteClick(row)}
                     color="inherit"
                 />,
             ],
@@ -141,7 +141,7 @@ export const useNoticeColumns = ({ handleEditClick, handleDeleteClick }: handleC
 }
 
 
-export const useMainColumns = ({ handleEditClick, handleDeleteClick }: handleClick): GridEnrichedColDef[] => {
+export const useMainColumns = ({ handleEditClick, HandleDeleteClick }: handleClick): GridEnrichedColDef[] => {
     return [
         { field: 'number', headerName: 'ID', width: 70, type: 'number' },
         { field: 'datetime', headerName: '등록일', width: 150 },
@@ -164,7 +164,7 @@ export const useMainColumns = ({ handleEditClick, handleDeleteClick }: handleCli
                 <GridActionsCellItem
                     icon={<DeleteIcon />}
                     label="Delete"
-                    onClick={() => handleDeleteClick(row)}
+                    onClick={() => HandleDeleteClick(row)}
                     color="inherit"
                 />,
             ],
@@ -173,7 +173,7 @@ export const useMainColumns = ({ handleEditClick, handleDeleteClick }: handleCli
 }
 
 
-export const useFranChiseColumns = ({ handleEditClick, handleDeleteClick }: handleClick): GridEnrichedColDef[] => {
+export const useFranChiseColumns = ({ handleEditClick, HandleDeleteClick }: handleClick): GridEnrichedColDef[] => {
     return [
         { field: 'number', headerName: 'ID', width: 70, type: 'number' },
         { field: 'datetime', headerName: '등록일', width: 150 },
@@ -195,7 +195,7 @@ export const useFranChiseColumns = ({ handleEditClick, handleDeleteClick }: hand
                 <GridActionsCellItem
                     icon={<DeleteIcon />}
                     label="Delete"
-                    onClick={() => handleDeleteClick(row)}
+                    onClick={() => HandleDeleteClick(row)}
                     color="inherit"
                 />,
             ],
