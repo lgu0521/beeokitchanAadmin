@@ -1,4 +1,4 @@
-import { GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
@@ -135,7 +135,7 @@ const AdminFranChisePage: NextPage<Props> = ({ franchises }) => {
     );
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetServerSideProps = async (context) => {
     const res1 = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/franchise");
     const franchises: FranChiseDTO[] = await res1.json();
 

@@ -1,4 +1,4 @@
-import { GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { MenuCatagoryDTO, MenusWithCatagoryDTO, MenuDTO } from "../../dto/menu.dto";
@@ -144,7 +144,7 @@ const AdminMenuPage: NextPage<Props> = ({ menuByCatagory, catagory }) => {
     );
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetServerSideProps = async (context) => {
     const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/menu");
     const menuByCatagory: MenusWithCatagoryDTO[] = await res.json();
     const resCatagory = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/menu/catagory");
