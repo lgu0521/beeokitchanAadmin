@@ -37,8 +37,10 @@ const defaultItem: StoreDTO = {
 
 const AdminStorePage: NextPage<Props> = ({ stores }) => {
     console.log(stores);
+
     const { user } = useAuth();
     const router = useRouter();
+    router.replace(router.asPath);
     const [loading, setLoading] = useState<boolean>(false);
     if (!user) {
         router.push('/signup');
