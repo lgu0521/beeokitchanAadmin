@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import useGetDate from "../../../hooks/useGetDate";
 import CircularProgress from '../../progress';
+import { useRouter } from "next/router";
 
 interface Props {
   isOpen: boolean;
@@ -24,7 +25,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   const [date, setDate] = useState<string>(useGetDate());
   const [loading, setLoading] = useState<boolean>(false);
   const uploadStorage = useUploadStorage;
-
+  const router = useRouter();
   const OnSubmit = async (data: any) => {
     let newImageStorage = await uploadStorage(newMenuImage, "storeImage");
 
@@ -42,9 +43,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
           } as BannerDTO),
         }
       );
-      if (res && typeof window != null) {
-        window.location.reload();
-      }
+      router.replace(router.asPath);
     } catch (e) {
       alert("다시 시도해주세요");
     }

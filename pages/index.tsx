@@ -15,6 +15,7 @@ import { BannerDTO } from "../dto/banner.dto";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '../components/progress';
 
 interface Props {
     banners: BannerDTO[],
@@ -32,6 +33,7 @@ const defaultItem: BannerDTO = {
 const AdminHomePage: NextPage<Props> = ({ banners }) => {
     const { user } = useAuth();
     const router = useRouter();
+    const [loading, setLoading] = useState<boolean>(false);
     if (!user) {
         router.push('/signup');
     }
@@ -61,6 +63,8 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
     };
 
     const HandleDeleteClick = async () => {
+        setLoading(true);
+        setDialogOpen(false);
         try {
             await deleteStorage(modifyItem);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/banner/delete", {
@@ -68,9 +72,7 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
                 body: JSON.stringify({ id: modifyItem.id }),
             });
 
-            if (typeof window != null) {
-                window.location.reload();
-            }
+            router.replace(router.asPath);
         } catch (e) {
             alert("다시 시도해주세요");
         }
@@ -85,6 +87,7 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
 
     return (
         <>
+
             <Card sx={{ width: '100%', borderRadius: '12px' }}>
                 <CardContent>
                     <Box
@@ -102,39 +105,40 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
                     </Box>
                 </CardContent>
                 <CardContent>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        p: 1,
-                        m: 1,
-                        // bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}
-                >
-                    <div style={{ height: 630, width: '100%', background: 'white', margin: 'auto' }}>
-                        <DataGrid
-                            rows={rows}
-                            columns={columns}
-                            pageSize={10}
-                            rowsPerPageOptions={[10]}
-                            hideFooterSelectedRowCount />
-                    </div>
-                </Box>
-                <CreateModal
-                    isOpen={createModalOpen}
-                    isClose={(click: boolean) => setCreateModalOpen(click)} />
-                <ModifyModal
-                    key={modifyItem.id}
-                    isOpen={modifyModalOpen}
-                    isClose={(click: boolean) => setModifyModalOpen(click)}
-                    item={modifyItem} />
-                <AlertDialog
-                    isOpen={dialogOpen}
-                    isClose={(click: boolean) => setDialogOpen(click)}
-                    HandleDeleteClick={HandleDeleteClick} />
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                            p: 1,
+                            m: 1,
+                            // bgcolor: 'background.paper',
+                            borderRadius: 1,
+                        }}
+                    >
+                        <div style={{ height: 630, width: '100%', background: 'white', margin: 'auto' }}>
+                            <DataGrid
+                                rows={rows}
+                                columns={columns}
+                                pageSize={10}
+                                rowsPerPageOptions={[10]}
+                                hideFooterSelectedRowCount />
+                        </div>
+                    </Box>
+                    <CreateModal
+                        isOpen={createModalOpen}
+                        isClose={(click: boolean) => setCreateModalOpen(click)} />
+                    <ModifyModal
+                        key={modifyItem.id}
+                        isOpen={modifyModalOpen}
+                        isClose={(click: boolean) => setModifyModalOpen(click)}
+                        item={modifyItem} />
+                    <AlertDialog
+                        isOpen={dialogOpen}
+                        isClose={(click: boolean) => setDialogOpen(click)}
+                        HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
+                <CircularProgress isOpen={loading} />
             </Card>
         </>
     );

@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import CircularProgress from '../../progress';
+import { useRouter } from "next/router";
 
 interface Props {
   item: MenuDTO;
@@ -27,7 +28,7 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
   const deleteStorage = useDeleteStorage;
   const uploadStorage = useUploadStorage;
   const [loading, setLoading] = useState<boolean>(false);
-
+  const router = useRouter();
   const OnSubmit = async (data: any) => {
     let newImageStorage = null;
     setLoading(true);
@@ -51,9 +52,7 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
           } as MenuDTO),
         }
       );
-      if (res && typeof window != null) {
-        window.location.reload();
-      }
+      router.replace(router.asPath);
     } catch (e) {
       alert("다시 시도해주세요");
     }

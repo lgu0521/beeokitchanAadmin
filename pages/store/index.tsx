@@ -76,10 +76,7 @@ const AdminStorePage: NextPage<Props> = ({ stores }) => {
                 method: "POST",
                 body: JSON.stringify({ id: modifyItem.id }),
             });
-
-            if (typeof window != null) {
-                window.location.reload();
-            }
+            router.replace(router.asPath);
         } catch (e) {
             alert("다시 시도해주세요");
         }

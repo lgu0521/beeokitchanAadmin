@@ -12,6 +12,7 @@ import { BannerDTO } from "../../../dto/banner.dto";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import CircularProgress from '../../progress';
+import { useRouter } from "next/router";
 
 interface Props {
   item: BannerDTO;
@@ -21,6 +22,7 @@ interface Props {
 
 const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const router = useRouter();
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
   const [date, setDate] = useState<string>(item.datetime);
   const deleteStorage = useDeleteStorage;
@@ -50,9 +52,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
           } as BannerDTO),
         }
       );
-      if (res && typeof window != null) {
-        window.location.reload();
-      }
+      router.replace(router.asPath);
     } catch (e) {
       alert("다시 시도해주세요");
     }

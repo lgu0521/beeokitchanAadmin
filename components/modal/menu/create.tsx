@@ -12,6 +12,7 @@ import useUploadStorage from "../../../hooks/useUploadStorage";
 import TextField from '@mui/material/TextField';
 import useGetDate from "../../../hooks/useGetDate";
 import CircularProgress from '../../progress';
+import { useRouter } from "next/router";
 
 
 interface Props {
@@ -22,6 +23,7 @@ interface Props {
 
 const CreateModal = ({ item, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const router = useRouter();
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
   const [date, setDate] = useState<string>(useGetDate());
   const [loading, setLoading] = useState<boolean>(false);
@@ -44,9 +46,7 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
           } as MenuDTO),
         }
       );
-      if (res && typeof window != null) {
-        window.location.reload();
-      }
+      router.replace(router.asPath);
     } catch (e) {
       alert("다시 시도해주세요");
     }

@@ -59,9 +59,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
           }),
         }
       );
-      if (res && typeof window != null) {
-        window.location.reload();
-      }
+      router.replace(router.asPath);
     }
   };
 

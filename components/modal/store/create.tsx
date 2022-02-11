@@ -10,6 +10,7 @@ import { StoreDTO } from "../../../dto/store.dto";
 import TextField from '@mui/material/TextField';
 import useGetDate from "../../../hooks/useGetDate";
 import CircularProgress from '../../progress';
+import { useRouter } from "next/router";
 interface Props {
   isOpen: boolean;
   isClose: (click: boolean) => void;
@@ -21,7 +22,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   const [date, setDate] = useState<string>(useGetDate());
   const [loading, setLoading] = useState<boolean>(false);
   const uploadStorage = useUploadStorage;
-  
+  const router = useRouter();
   const OnSubmit = async (data: any) => {
     // 이미지 변경시, 기존 이미지 삭제 후 교체
     setLoading(true);
@@ -40,9 +41,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
           } as StoreDTO),
         }
       );
-      if (res && typeof window != null) {
-        window.location.reload();
-      }
+      router.replace(router.asPath);
     } catch (e) {
       alert("다시 시도해주세요");
     }
@@ -52,7 +51,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   //이미지 권장설명 수정 필요
   return (
     <>
-     <CircularProgress isOpen={loading}/>
+      <CircularProgress isOpen={loading} />
       <div>
         <Modal
           open={isOpen}
@@ -61,7 +60,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
           aria-describedby="modal-modal-description">
           <Box sx={ModalBox()}>
             <form onSubmit={handleSubmit(OnSubmit)}>
-            <TextField
+              <TextField
                 id="datetime-local"
                 label="등록날짜(노출 순위가 달라집니다)"
                 type="datetime-local"
