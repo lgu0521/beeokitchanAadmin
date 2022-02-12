@@ -13,16 +13,18 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import CircularProgress from '../../progress';
 import { useRouter } from "next/router";
+import useSWR from "swr";
 
 interface Props {
   item: MenuDTO;
-  itemCatagory: MenuCatagoryDTO[];
   isOpen: boolean;
   isClose: (click: boolean) => void;
 }
 
-const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
+const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const fetcher = (url: string) => fetch(url).then(r => r.json());
+  const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/menu/catagory', fetcher);
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
   const [date, setDate] = useState<string>(item.datetime);
   const deleteStorage = useDeleteStorage;
@@ -62,7 +64,7 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
   //이미지 권장설명 수정 필요
   return (
     <>
-    <CircularProgress isOpen={loading}/>
+      <CircularProgress isOpen={loading} />
       <div>
         <Modal
           open={isOpen}
@@ -91,7 +93,7 @@ const ModifyModal = ({ item, itemCatagory, isOpen, isClose }: Props) => {
                   label="메뉴 카테고리"
                   defaultValue={item.catagory}
                   {...register("catagory", { required: true })}>
-                  {itemCatagory.map((catagory, i) => (
+                  {data.map((catagory: MenuCatagoryDTO, i: number) => (
                     <MenuItem key={i} value={catagory.title}> {catagory.title}</MenuItem>
                   ))}
                 </Select>

@@ -13,16 +13,18 @@ import TextField from '@mui/material/TextField';
 import useGetDate from "../../../hooks/useGetDate";
 import CircularProgress from '../../progress';
 import { useRouter } from "next/router";
+import useSWR from "swr";
 
 
 interface Props {
-  item: MenuCatagoryDTO[];
   isOpen: boolean;
   isClose: (click: boolean) => void;
 }
 
-const CreateModal = ({ item, isOpen, isClose }: Props) => {
+const CreateModal = ({ isOpen, isClose }: Props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const fetcher = (url: string) => fetch(url).then(r => r.json());
+  const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/menu/catagory', fetcher);
   const router = useRouter();
   const [newMenuImage, setNewMenuImage] = useState<any>(null);
   const [date, setDate] = useState<string>(useGetDate());
@@ -56,7 +58,7 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
   //이미지 권장설명 수정 필요
   return (
     <>
-    <CircularProgress isOpen={loading}/>
+      <CircularProgress isOpen={loading} />
       <div>
         <Modal
           open={isOpen}
@@ -65,7 +67,7 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
           aria-describedby="modal-modal-description">
           <Box sx={ModalBox()}>
             <form onSubmit={handleSubmit(OnSubmit)}>
-            <TextField
+              <TextField
                 id="datetime-local"
                 label="등록날짜(노출 순위가 달라집니다)"
                 type="datetime-local"
@@ -82,7 +84,7 @@ const CreateModal = ({ item, isOpen, isClose }: Props) => {
                   id="demo-simple-select"
                   label="메뉴 카테고리"
                   {...register("catagory", { required: true })}>
-                  {item.map((item, i) => (
+                  {data.map((item: MenuCatagoryDTO, i: number) => (
                     <MenuItem key={i} value={item.title}> {item.title}</MenuItem>
                   ))}
                 </Select>

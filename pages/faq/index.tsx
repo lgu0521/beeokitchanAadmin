@@ -15,9 +15,8 @@ import Typography from '@mui/material/Typography';
 import { useAuth } from '../../hooks/AuthProvider';
 import { useRouter } from "next/router";
 import CircularProgress from '../../components/progress';
-interface Props {
-    faqs: FaqDTO[];
-}
+import useSWR from "swr";
+import useMakeRows from "../../hooks/useMakeRows";
 
 const defaultItem: FaqDTO = {
     id: '',
@@ -26,43 +25,33 @@ const defaultItem: FaqDTO = {
     content: ''
 }
 
-const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
-    const { user } = useAuth();
+const AdminFaqPage: NextPage = () => {
     const router = useRouter();
+    const { user } = useAuth();
+
     if (!user) {
         router.push('/signup');
     }
-    let rows: any[] = [];
-    let rowNumber = 0;
+
+    const fetcher = (url: string) => fetch(url).then(r => r.json());
+    const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/faq', fetcher);
+
     const [modifyItem, setModifyItem] = useState(defaultItem);
-    const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
-    const [modifyModalOpen, setModifyModalOpen] = useState<boolean>(false);
-    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(false);
-    const madeRows = () => {
-        faqs.forEach(faq => {
-            rowNumber = rowNumber + 1;
-            rows.push({
-                ...faq,
-                number: rowNumber,
-            })
-        });
-    }
+    const [createModalOpen, setCreateModal] = useState<boolean>(false);
+    const [modifyModalOpen, setModifyModal] = useState<boolean>(false);
+    const [progressOpen, setProgress] = useState<boolean>(false);
+    const [dialogOpen, setDialog] = useState<boolean>(false);
 
-    madeRows();
+    const makeRows = useMakeRows;
 
-    const handleEditClick = (item: any) => {
-        setModifyItem(item);
-        setModifyModalOpen(true);
+    const handleEditClick = (id: any) => {
+        setModifyItem(id);
+        setModifyModal(true);
     };
 
-    const SetDialogOpen = (id: any) => {
-        setModifyItem(id);
-        setDialogOpen(true);
-    }
-
     const HandleDeleteClick = async () => {
-        setLoading(true);
+        setProgress(true);
+        setDialog(false);
         try {
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/delete", {
                 method: "POST",
@@ -73,8 +62,20 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
             alert("다시 시도해주세요");
         }
     };
+
+
+    const SetDialogOpen = (id: any) => {
+        setModifyItem(id);
+        setDialog(true);
+    }
+
     const columns = useFaqColumns({ handleEditClick: handleEditClick, HandleDeleteClick: SetDialogOpen });
 
+    if (error) { return <div>데이터를 불러오지 못했습니다...</div>; }
+    if (!data) { return <div>데이터를 불러오는 중 입니다...</div>; }
+
+    const rows = makeRows(data);
+    
     return (
         <>
             <Card sx={{ width: '100%', borderRadius: '12px' }}>
@@ -90,7 +91,7 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
                             borderRadius: 1,
                         }}>
                         <Typography gutterBottom variant="h4" component="div">FAQ 관리</Typography>
-                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
+                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModal(true)}>추가하기</Button>
                     </Box>
                 </CardContent>
                 <CardContent>
@@ -117,36 +118,19 @@ const AdminFaqPage: NextPage<Props> = ({ faqs }) => {
 
                     <CreateModal
                         isOpen={createModalOpen}
-                        isClose={(click: boolean) => setCreateModalOpen(click)} />
+                        isClose={(click: boolean) => setCreateModal(click)} />
                     <ModifyModal
                         key={modifyItem.id}
                         isOpen={modifyModalOpen}
-                        isClose={(click: boolean) => setModifyModalOpen(click)}
+                        isClose={(click: boolean) => setModifyModal(click)}
                         item={modifyItem} />
-                    <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
+                    <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialog(click)}
                         HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
             </Card>
-            <CircularProgress isOpen={loading} />
+            <CircularProgress isOpen={progressOpen} />
         </>
     );
 }
-
-export const getStaticProps: GetServerSideProps = async (context) => {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/faq/");
-    const faqs: FaqDTO[] = await res.json();
-
-    if (!faqs) {
-        return {
-            notFound: true,
-        };
-    }
-
-    return {
-        props: {
-            faqs
-        },
-    };
-};
 
 export default AdminFaqPage

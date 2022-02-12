@@ -45,7 +45,7 @@ export const useMuenuColumns = ({ handleEditClick, HandleDeleteClick }: handleCl
 
 export const useStoreColumns = ({ handleEditClick, HandleDeleteClick }: handleClick): GridEnrichedColDef[] => {
     return [
-        { field: 'number', headerName: 'ID', width: 70, type: 'number' },
+        { field: 'number', headerName: '번호', width: 70, type: 'number' },
         { field: 'datetime', headerName: '등록일', width: 150 },
         { field: 'title', headerName: '매장 이름', width: 200 },
         { field: 'phonenumber', headerName: '전화번호', width: 300 },

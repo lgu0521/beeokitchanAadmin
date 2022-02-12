@@ -1,24 +1,30 @@
-import { GetServerSideProps, NextPage } from "next";
+//basic
+import { NextPage } from "next";
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+import { useRouter } from "next/router";
+//service
+import useSWR from "swr";
+//mock
 import { useNoticeColumns } from '../../mock/grid-columns';
+//component
 import ModifyModal from '../../components/modal/notice/modify';
 import AlertDialog from "../../components/alertDialog";
 import CreateModal from "../../components/modal/notice/create";
+import CircularProgress from '../../components/progress';
+//dto
+import { NoticeDTO } from "../../dto/notice.dto";
+//hook
+import { useAuth } from '../../hooks/AuthProvider';
+import useMakeRows from "../../hooks/useMakeRows";
+//style
+import Box from '@mui/material/Box';
+import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import { NoticeDTO } from "../../dto/notice.dto";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { useAuth } from '../../hooks/AuthProvider';
-import { useRouter } from "next/router";
-import CircularProgress from '../../components/progress';
 
-interface Props {
-    notices: NoticeDTO[];
-}
 
 const defaultItem: NoticeDTO = {
     id: '',
@@ -28,45 +34,34 @@ const defaultItem: NoticeDTO = {
     datetime: '',
 }
 
-const AdminNoticePage: NextPage<Props> = ({ notices }) => {
+const AdminNoticePage: NextPage = () => {
     const { user } = useAuth();
     const router = useRouter();
+
     if (!user) {
         router.push('/signup');
     }
-    let rows: any[] = [];
-    let rowNumber = 0;
-    const [loading, setLoading] = useState<boolean>(false);
+
+    const fetcher = (url: string) => fetch(url).then(r => r.json());
+    const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/store', fetcher);
+
     const [modifyItem, setModifyItem] = useState(defaultItem);
-    const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
-    const [modifyModalOpen, setModifyModalOpen] = useState<boolean>(false);
-    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+    const [createModalOpen, setCreateModal] = useState<boolean>(false);
+    const [modifyModalOpen, setModifyModal] = useState<boolean>(false);
+    const [progressOpen, setProgress] = useState<boolean>(false);
+    const [dialogOpen, setDialog] = useState<boolean>(false);
 
-    const madeRows = () => {
-        notices.forEach(notice => {
-            rowNumber = rowNumber + 1;
-            rows.push({
-                ...notice,
-                number: rowNumber,
-            })
-        });
-    }
-
-    madeRows();
+    const makeRows = useMakeRows;
 
     const handleEditClick = (id: any) => {
         setModifyItem(id);
-        setModifyModalOpen(true);
+        setModifyModal(true);
     };
-
-    const SetDialogOpen = (id: any) => {
-        setDialogOpen(true);
-        setModifyItem(id);
-    }
 
     const HandleDeleteClick = async () => {
         try {
-            setLoading(true);
+            setProgress(true);
+            setDialog(false);
             //await useDeleteStorage(modifyItem.image);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/notice/delete", {
                 method: "POST",
@@ -78,8 +73,17 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
         }
     };
 
+    const SetDialogOpen = (id: any) => {
+        setModifyItem(id);
+        setDialog(true);
+    }
 
     const columns = useNoticeColumns({ handleEditClick: handleEditClick, HandleDeleteClick: SetDialogOpen });
+
+    if (error) { return <div>데이터를 불러오지 못했습니다...</div>; }
+    if (!data) { return <div>데이터를 불러오는 중 입니다...</div>; }
+
+    const rows = makeRows(data);
 
     return (
         <>
@@ -96,61 +100,44 @@ const AdminNoticePage: NextPage<Props> = ({ notices }) => {
                             borderRadius: 1,
                         }}>
                         <Typography gutterBottom variant="h4" component="div">공지사항 관리</Typography>
-                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
+                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModal(true)}>추가하기</Button>
                     </Box>
                 </CardContent>
                 <CardContent>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        p: 1,
-                        m: 1,
-                        // bgcolor: 'background.paper',
-                        borderRadius: 1,
-                    }}
-                >
-                    <div style={{ height: 630, width: '100%', background: 'white', margin: 'auto' }}>
-                        <DataGrid
-                            rows={rows}
-                            columns={columns}
-                            pageSize={10}
-                            rowsPerPageOptions={[10]}
-                            hideFooterSelectedRowCount />
-                    </div>
-                </Box>
-                <CircularProgress isOpen={loading}/>
-                <CreateModal
-                    isOpen={createModalOpen}
-                    isClose={(click: boolean) => setCreateModalOpen(click)} />
-                <ModifyModal
-                    isOpen={modifyModalOpen}
-                    isClose={(click: boolean) => setModifyModalOpen(click)}
-                    item={modifyItem} />
-                <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialogOpen(click)}
-                    HandleDeleteClick={HandleDeleteClick} />
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                            p: 1,
+                            m: 1,
+                            // bgcolor: 'background.paper',
+                            borderRadius: 1,
+                        }}
+                    >
+                        <div style={{ height: 630, width: '100%', background: 'white', margin: 'auto' }}>
+                            <DataGrid
+                                rows={rows}
+                                columns={columns}
+                                pageSize={10}
+                                rowsPerPageOptions={[10]}
+                                hideFooterSelectedRowCount />
+                        </div>
+                    </Box>
+                    <CircularProgress isOpen={progressOpen} />
+                    <CreateModal
+                        isOpen={createModalOpen}
+                        isClose={(click: boolean) => setCreateModal(click)} />
+                    <ModifyModal
+                        isOpen={modifyModalOpen}
+                        isClose={(click: boolean) => setModifyModal(click)}
+                        item={modifyItem} />
+                    <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialog(click)}
+                        HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
             </Card>
         </>
     );
 }
-
-export const getStaticProps: GetServerSideProps = async (context) => {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/notice");
-    const notices: NoticeDTO[] = await res.json();
-
-    if (!notices) {
-        return {
-            notFound: true,
-        };
-    }
-
-    return {
-        props: {
-            notices
-        },
-    };
-};
 
 export default AdminNoticePage;
