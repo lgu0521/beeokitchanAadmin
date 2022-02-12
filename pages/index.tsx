@@ -1,5 +1,7 @@
 import { GetStaticProps, NextPage } from "next";
 import React, { useState } from 'react';
+//service
+import useSWR from "swr";
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { useMainColumns } from '../mock/grid-columns';
@@ -16,6 +18,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '../components/progress';
+import useMakeRows from "../hooks/useMakeRows";
 
 interface Props {
     banners: BannerDTO[],
@@ -31,40 +34,33 @@ const defaultItem: BannerDTO = {
 }
 
 const AdminHomePage: NextPage<Props> = ({ banners }) => {
-    const { user } = useAuth();
     const router = useRouter();
-    const [loading, setLoading] = useState<boolean>(false);
+    const { user } = useAuth();
+
     if (!user) {
         router.push('/signup');
     }
-    let rows: any[] = [];
-    let rowNumber = 0;
+
+    const fetcher = (url: string) => fetch(url).then(r => r.json());
+    const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/banner', fetcher);
+
     const [modifyItem, setModifyItem] = useState(defaultItem);
-    const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
-    const [modifyModalOpen, setModifyModalOpen] = useState<boolean>(false);
-    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+    const [createModalOpen, setCreateModal] = useState<boolean>(false);
+    const [modifyModalOpen, setModifyModal] = useState<boolean>(false);
+    const [progressOpen, setProgress] = useState<boolean>(false);
+    const [dialogOpen, setDialog] = useState<boolean>(false);
+
     const deleteStorage = useDeleteStorage;
-
-    const madeRows = () => {
-        banners.forEach(banner => {
-            rowNumber = rowNumber + 1;
-            rows.push({
-                ...banner,
-                number: rowNumber,
-            })
-        });
-    }
-
-    madeRows();
+    const makeRows = useMakeRows;
 
     const HandleEditClick = (id: any) => {
         setModifyItem(id);
-        setModifyModalOpen(true);
+        setModifyModal(true);
     };
 
     const HandleDeleteClick = async () => {
-        setLoading(true);
-        setDialogOpen(false);
+        setProgress(true);
+        setDialog(false);
         try {
             await deleteStorage(modifyItem);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/banner/delete", {
@@ -80,10 +76,15 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
 
     const SetDialogOpen = (id: any) => {
         setModifyItem(id);
-        setDialogOpen(true);
+        setDialog(true);
     }
 
     const columns = useMainColumns({ handleEditClick: HandleEditClick, HandleDeleteClick: SetDialogOpen });
+
+    if (error) { return <div>데이터를 불러오지 못했습니다...</div>; }
+    if (!data) { return <div>데이터를 불러오는 중 입니다...</div>; }
+
+    const rows = makeRows(data);
 
     return (
         <>
@@ -101,7 +102,7 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
                             borderRadius: 1,
                         }}>
                         <Typography gutterBottom variant="h4" component="div">메인 관리</Typography>
-                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModalOpen(true)}>추가하기</Button>
+                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModal(true)}>추가하기</Button>
                     </Box>
                 </CardContent>
                 <CardContent>
@@ -127,38 +128,21 @@ const AdminHomePage: NextPage<Props> = ({ banners }) => {
                     </Box>
                     <CreateModal
                         isOpen={createModalOpen}
-                        isClose={(click: boolean) => setCreateModalOpen(click)} />
+                        isClose={(click: boolean) => setCreateModal(click)} />
                     <ModifyModal
                         key={modifyItem.id}
                         isOpen={modifyModalOpen}
-                        isClose={(click: boolean) => setModifyModalOpen(click)}
+                        isClose={(click: boolean) => setModifyModal(click)}
                         item={modifyItem} />
                     <AlertDialog
                         isOpen={dialogOpen}
-                        isClose={(click: boolean) => setDialogOpen(click)}
+                        isClose={(click: boolean) => setDialog(click)}
                         HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
-                <CircularProgress isOpen={loading} />
+                <CircularProgress isOpen={progressOpen} />
             </Card>
         </>
     );
 }
-
-export const getStaticProps: GetStaticProps = async (context) => {
-    const res1 = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/banner");
-    const banners: BannerDTO[] = await res1.json();
-
-    if (!banners) {
-        return {
-            notFound: true,
-        };
-    }
-
-    return {
-        props: {
-            banners
-        },
-    };
-};
 
 export default AdminHomePage;

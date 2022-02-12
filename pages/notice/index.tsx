@@ -43,7 +43,7 @@ const AdminNoticePage: NextPage = () => {
     }
 
     const fetcher = (url: string) => fetch(url).then(r => r.json());
-    const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/store', fetcher);
+    const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/notice', fetcher);
 
     const [modifyItem, setModifyItem] = useState(defaultItem);
     const [createModalOpen, setCreateModal] = useState<boolean>(false);

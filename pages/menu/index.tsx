@@ -12,11 +12,11 @@ import AlertDialog from "../../components/alertDialog";
 import CreateModal from "../../components/modal/menu/create";
 import CircularProgress from '../../components/progress';
 //dto
-import { MenuDTO, MenusWithCatagoryDTO, MenuCatagoryDTO } from "../../dto/menu.dto";
+import { MenuDTO } from "../../dto/menu.dto";
 //hook
 import { useAuth } from '../../hooks/AuthProvider';
 import useDeleteStorage from "../../hooks/useDeleteStorage";
-import useMakeRows from '../../hooks/useMakeRows';
+import menuMadeRows from '../../hooks/useMakeRows';
 //style
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -50,7 +50,6 @@ const AdminMenuPage: NextPage = () => {
 
     const fetcher = (url: string) => fetch(url).then(r => r.json());
     const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/menu', fetcher);
-    //const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/menu/catagory', fetcher);
 
     const [modifyItem, setModifyItem] = useState(defaultItem);
     const [createModalOpen, setCreateModal] = useState<boolean>(false);
@@ -59,8 +58,7 @@ const AdminMenuPage: NextPage = () => {
     const [dialogOpen, setDialog] = useState<boolean>(false);
 
     const deleteStorage = useDeleteStorage;
-    const makeRows = useMakeRows;
-
+    const makeRows = menuMadeRows;
 
     const handleEditClick = (id: any) => {
         setModifyItem(id);
@@ -68,8 +66,8 @@ const AdminMenuPage: NextPage = () => {
     };
 
     const HandleDeleteClick = async () => {
-            setProgress(true);
-            setDialog(false);
+        setProgress(true);
+        setDialog(false);
         try {
             await deleteStorage(modifyItem.image);
             await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/menu/delete", {
@@ -92,8 +90,9 @@ const AdminMenuPage: NextPage = () => {
     if (error) { return <div>데이터를 불러오지 못했습니다...</div>; }
     if (!data) { return <div>데이터를 불러오는 중 입니다...</div>; }
 
-    const rows = makeRows(data);
-    
+    const rows = menuMadeRows(data);
+    console.log(rows);
+
     return (
         <>
             <Card sx={{ width: '100%', borderRadius: '12px' }}>
@@ -134,12 +133,12 @@ const AdminMenuPage: NextPage = () => {
                     </Box>
                     <CreateModal
                         isOpen={createModalOpen}
-                        isClose={(click: boolean) => setCreateModal(click)}/>
+                        isClose={(click: boolean) => setCreateModal(click)} />
                     <ModifyModal
                         key={modifyItem.id}
                         isOpen={modifyModalOpen}
                         isClose={(click: boolean) => setModifyModal(click)}
-                        item={modifyItem}/>
+                        item={modifyItem} />
                     <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialog(click)}
                         HandleDeleteClick={HandleDeleteClick} />
                 </CardContent>
