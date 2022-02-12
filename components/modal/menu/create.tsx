@@ -54,7 +54,9 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
     }
   };
 
-
+  if (error) { return <div>데이터를 불러오지 못했습니다...</div>; }
+  if (!data) { return <div>데이터를 불러오는 중 입니다...</div>; }
+  
   //이미지 권장설명 수정 필요
   return (
     <>

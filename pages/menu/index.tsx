@@ -16,7 +16,7 @@ import { MenuDTO } from "../../dto/menu.dto";
 //hook
 import { useAuth } from '../../hooks/AuthProvider';
 import useDeleteStorage from "../../hooks/useDeleteStorage";
-import menuMadeRows from '../../hooks/useMakeRows';
+import { menuMadeRows } from '../../hooks/useMakeRows';
 //style
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -90,7 +90,7 @@ const AdminMenuPage: NextPage = () => {
     if (error) { return <div>데이터를 불러오지 못했습니다...</div>; }
     if (!data) { return <div>데이터를 불러오는 중 입니다...</div>; }
 
-    const rows = menuMadeRows(data);
+    const rows = makeRows(data);
     console.log(rows);
 
     return (
