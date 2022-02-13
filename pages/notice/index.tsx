@@ -56,6 +56,7 @@ const AdminNoticePage: NextPage = () => {
     const handleEditClick = (id: any) => {
         setModifyItem(id);
         setModifyModal(true);
+        router.push('/notice/modify/' + id.id);
     };
 
     const HandleDeleteClick = async () => {
@@ -100,42 +101,35 @@ const AdminNoticePage: NextPage = () => {
                             borderRadius: 1,
                         }}>
                         <Typography gutterBottom variant="h4" component="div">공지사항 관리</Typography>
-                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModal(true)}>추가하기</Button>
+                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => router.push('/notice/create')}>추가하기</Button>
                     </Box>
                 </CardContent>
-                <CardContent>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                            p: 1,
-                            m: 1,
-                            // bgcolor: 'background.paper',
-                            borderRadius: 1,
-                        }}
-                    >
-                        <div style={{ height: 630, width: '100%', background: 'white', margin: 'auto' }}>
-                            <DataGrid
-                                rows={rows}
-                                columns={columns}
-                                pageSize={10}
-                                rowsPerPageOptions={[10]}
-                                hideFooterSelectedRowCount />
-                        </div>
-                    </Box>
-                    <CircularProgress isOpen={progressOpen} />
-                    <CreateModal
-                        isOpen={createModalOpen}
-                        isClose={(click: boolean) => setCreateModal(click)} />
-                    <ModifyModal
-                        isOpen={modifyModalOpen}
-                        isClose={(click: boolean) => setModifyModal(click)}
-                        item={modifyItem} />
-                    <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialog(click)}
-                        HandleDeleteClick={HandleDeleteClick} />
-                </CardContent>
-            </Card>
+            <CardContent>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexDirection: 'column',
+                        p: 1,
+                        m: 1,
+                        // bgcolor: 'background.paper',
+                        borderRadius: 1,
+                    }}
+                >
+                    <div style={{ height: 630, width: '100%', background: 'white', margin: 'auto' }}>
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            pageSize={10}
+                            rowsPerPageOptions={[10]}
+                            hideFooterSelectedRowCount />
+                    </div>
+                </Box>
+                <CircularProgress isOpen={progressOpen} />
+                <AlertDialog isOpen={dialogOpen} isClose={(click: boolean) => setDialog(click)}
+                    HandleDeleteClick={HandleDeleteClick} />
+            </CardContent>
+        </Card>
         </>
     );
 }
