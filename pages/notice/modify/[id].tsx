@@ -101,9 +101,11 @@ const ModifyPage: NextPage<Props> = ({ item }) => {
                             </InputWrap>
                             <Label>공지사항 내용</Label>
                             <Box sx={{
-                                minHeight: '300px',
-                                border: '1px solid rgba(0, 0, 0, 0.87)',
-                                borderRadius: '5px'
+                                    minHeight: '500px',
+                                    border: '1px solid #C4C4C4',
+                                    borderRadius: '4px',
+                                    p:"16.5px 25px",
+                                    m: '10px 0px'
                             }}>
                                 <div className="editor">
                                     <MarkdownEditor
