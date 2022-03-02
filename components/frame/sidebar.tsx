@@ -49,6 +49,16 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </a>
                         </Link>
+                        <Link href='/popup'>
+                            <a>
+                                <ListItemButton sx={{ pl: 4 }}>
+                                    <ListItemIcon>
+                                        <StarBorder />
+                                    </ListItemIcon>
+                                    <ListItemText primary="팝업" />
+                                </ListItemButton>
+                            </a>
+                        </Link>
                         <Link href='/menu'>
                             <a>
                                 <ListItemButton sx={{ pl: 4 }}>

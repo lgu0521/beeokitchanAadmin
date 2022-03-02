@@ -1,25 +1,25 @@
-import { GetStaticProps, NextPage } from "next";
+import { NextPage } from "next";
 import React, { useState } from 'react';
 //service
 import useSWR from "swr";
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { useMainColumns } from '../mock/grid-columns';
-import ModifyModal from '../components/modal/home/modify';
-import AlertDialog from "../components/alertDialog";
-import CreateModal from "../components/modal/home/create";
+import { useMainColumns } from '../../mock/grid-columns';
+import ModifyModal from '../../components/modal/popup/modify';
+import AlertDialog from "../../components/alertDialog";
+import CreateModal from "../../components/modal/popup/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import { useAuth } from '../hooks/AuthProvider';
+import { useAuth } from '../../hooks/AuthProvider';
 import { useRouter } from "next/router";
-import useDeleteStorage from "../hooks/useDeleteStorage";
-import { BannerDTO } from "../dto/banner.dto";
+import useDeleteStorage from "../../hooks/useDeleteStorage";
+import { BannerDTO } from "../../dto/banner.dto";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import CircularProgress from '../components/progress';
-import useMakeRows from "../hooks/useMakeRows";
-import SideBannerCard from "../components/Minibanner";
+import CircularProgress from '../../components/progress';
+import useMakeRows from "../../hooks/useMakeRows";
+import SideBannerCard from "../../components/Minibanner";
 
 const defaultItem: BannerDTO = {
     id: '',
@@ -39,7 +39,7 @@ const AdminHomePage: NextPage = () => {
     }
 
     const fetcher = (url: string) => fetch(url).then(r => r.json());
-    const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/banner', fetcher);
+    const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/popup', fetcher);
 
     const [modifyItem, setModifyItem] = useState(defaultItem);
     const [createModalOpen, setCreateModal] = useState<boolean>(false);
@@ -60,7 +60,7 @@ const AdminHomePage: NextPage = () => {
         setDialog(false);
         try {
             await deleteStorage(modifyItem);
-            await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/banner/delete", {
+            await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/popup/delete", {
                 method: "POST",
                 body: JSON.stringify({ id: modifyItem.id }),
             });
@@ -85,7 +85,6 @@ const AdminHomePage: NextPage = () => {
 
     return (
         <>
-
             <Card sx={{ width: '100%', borderRadius: '12px' }}>
                 <CardContent>
                     <Box
@@ -98,7 +97,7 @@ const AdminHomePage: NextPage = () => {
                             m: 1,
                             borderRadius: 1,
                         }}>
-                        <Typography gutterBottom variant="h4" component="div">메인 상단배너 관리</Typography>
+                        <Typography gutterBottom variant="h4" component="div">팝업 관리</Typography>
                         <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModal(true)}>추가하기</Button>
                     </Box>
                 </CardContent>
@@ -138,7 +137,6 @@ const AdminHomePage: NextPage = () => {
                 </CardContent>
                 <CircularProgress isOpen={progressOpen} />
             </Card>
-            <SideBannerCard />
         </>
     );
 }

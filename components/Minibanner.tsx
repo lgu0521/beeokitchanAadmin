@@ -5,9 +5,9 @@ import useSWR from "swr";
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { useMainColumns } from '../mock/grid-columns';
-import ModifyModal from '../components/modal/home/modify';
+import ModifyModal from '../components/modal/minibanner/modify';
 import AlertDialog from "../components/alertDialog";
-import CreateModal from "../components/modal/home/create";
+import CreateModal from "../components/modal/minibanner/create";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { useAuth } from '../hooks/AuthProvider';
@@ -19,7 +19,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '../components/progress';
 import useMakeRows from "../hooks/useMakeRows";
-import SideBannerCard from "../components/Minibanner";
 
 const defaultItem: BannerDTO = {
     id: '',
@@ -30,7 +29,7 @@ const defaultItem: BannerDTO = {
     fileName: ''
 }
 
-const AdminHomePage: NextPage = () => {
+const SideBannerCard = () => {
     const router = useRouter();
     const { user } = useAuth();
 
@@ -39,7 +38,7 @@ const AdminHomePage: NextPage = () => {
     }
 
     const fetcher = (url: string) => fetch(url).then(r => r.json());
-    const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/banner', fetcher);
+    const { data, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/api/minibanner', fetcher);
 
     const [modifyItem, setModifyItem] = useState(defaultItem);
     const [createModalOpen, setCreateModal] = useState<boolean>(false);
@@ -60,7 +59,7 @@ const AdminHomePage: NextPage = () => {
         setDialog(false);
         try {
             await deleteStorage(modifyItem);
-            await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/banner/delete", {
+            await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/minibanner/delete", {
                 method: "POST",
                 body: JSON.stringify({ id: modifyItem.id }),
             });
@@ -85,8 +84,7 @@ const AdminHomePage: NextPage = () => {
 
     return (
         <>
-
-            <Card sx={{ width: '100%', borderRadius: '12px' }}>
+            <Card sx={{ width: '100%', borderRadius: '12px', marginTop: "20px" }}>
                 <CardContent>
                     <Box
                         sx={{
@@ -98,7 +96,7 @@ const AdminHomePage: NextPage = () => {
                             m: 1,
                             borderRadius: 1,
                         }}>
-                        <Typography gutterBottom variant="h4" component="div">메인 상단배너 관리</Typography>
+                        <Typography gutterBottom variant="h4" component="div">메인 하단배너 관리</Typography>
                         <Button variant="contained" startIcon={<AddIcon />} onClick={() => setCreateModal(true)}>추가하기</Button>
                     </Box>
                 </CardContent>
@@ -138,9 +136,8 @@ const AdminHomePage: NextPage = () => {
                 </CardContent>
                 <CircularProgress isOpen={progressOpen} />
             </Card>
-            <SideBannerCard />
         </>
     );
 }
 
-export default AdminHomePage;
+export default SideBannerCard;
