@@ -8,14 +8,14 @@ import ImageUpload from '../../ImageUpload';
 import useDeleteStorage from "../../../hooks/useDeleteStorage";
 import useUploadStorage from "../../../hooks/useUploadStorage";
 import TextField from '@mui/material/TextField';
-import { BannerDTO } from "../../../dto/banner.dto";
+import { PopupDto } from "../../../dto/popup.dto";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import CircularProgress from '../../progress';
 import { useRouter } from "next/router";
 
 interface Props {
-  item: BannerDTO;
+  item: PopupDto;
   isOpen: boolean;
   isClose: (click: boolean) => void;
 }
@@ -35,7 +35,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
     isClose(false);
     if (newMenuImage) {
       const res = await deleteStorage(item);
-      if(res) newImageStorage = await uploadStorage(newMenuImage, "storeImage");
+      if (res) newImageStorage = await uploadStorage(newMenuImage, "storeImage");
     }
 
 
@@ -46,10 +46,11 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
           method: "POST",
           body: JSON.stringify({
             ...newImageStorage,
+            link: data.link,
             type: 'PC',
             id: item.id,
             datetime: date
-          } as BannerDTO),
+          } as PopupDto),
         }
       );
       router.reload()
@@ -62,7 +63,7 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
   //이미지 권장설명 수정 필요
   return (
     <>
-    <CircularProgress isOpen={loading}/>
+      <CircularProgress isOpen={loading} />
       <div>
         <Modal
           open={isOpen}
@@ -82,6 +83,14 @@ const ModifyModal = ({ item, isOpen, isClose }: Props) => {
                   shrink: true,
                 }}
               />
+              <InputWrap>
+                <TextField
+                  id="component-outlined"
+                  defaultValue={item.link}
+                  {...register("link", { required: true })}
+                  label="연결 링크"
+                />
+              </InputWrap>
               <InputWrap>
                 <Label>팝업 이미지</Label>
                 <Description>권장사이즈 : 430 x 510px / 지원파일 : jpg,png (최대 1MB)</Description>

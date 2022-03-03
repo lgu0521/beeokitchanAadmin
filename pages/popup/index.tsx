@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import useSWR from "swr";
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { useMainColumns } from '../../mock/grid-columns';
+import { usePopupColumns } from '../../mock/grid-columns';
 import ModifyModal from '../../components/modal/popup/modify';
 import AlertDialog from "../../components/alertDialog";
 import CreateModal from "../../components/modal/popup/create";
@@ -13,7 +13,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useAuth } from '../../hooks/AuthProvider';
 import { useRouter } from "next/router";
 import useDeleteStorage from "../../hooks/useDeleteStorage";
-import { BannerDTO } from "../../dto/banner.dto";
+import { PopupDto } from "../../dto/popup.dto";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -21,13 +21,14 @@ import CircularProgress from '../../components/progress';
 import useMakeRows from "../../hooks/useMakeRows";
 import SideBannerCard from "../../components/Minibanner";
 
-const defaultItem: BannerDTO = {
+const defaultItem: PopupDto = {
     id: '',
     type: 'PC',
     datetime: '',
     storageRef: '',
     downloadUrl: '',
-    fileName: ''
+    fileName: '',
+    link: ''
 }
 
 const AdminHomePage: NextPage = () => {
@@ -76,7 +77,7 @@ const AdminHomePage: NextPage = () => {
         setDialog(true);
     }
 
-    const columns = useMainColumns({ handleEditClick: HandleEditClick, HandleDeleteClick: SetDialogOpen });
+    const columns = usePopupColumns({ handleEditClick: HandleEditClick, HandleDeleteClick: SetDialogOpen });
 
     if (error) { return <div>데이터를 불러오지 못했습니다...</div>; }
     if (!data) { return <div>데이터를 불러오는 중 입니다...</div>; }

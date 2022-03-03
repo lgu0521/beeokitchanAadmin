@@ -202,3 +202,35 @@ export const useFranChiseColumns = ({ handleEditClick, HandleDeleteClick }: hand
         },
     ];
 }
+
+
+export const usePopupColumns = ({ handleEditClick, HandleDeleteClick }: handleClick): GridEnrichedColDef[] => {
+    return [
+        { field: 'number', headerName: 'ID', width: 70, type: 'number' },
+        { field: 'datetime', headerName: '등록일', width: 150 },
+        { field:'fileName',headerName: '파일 이름', width: 800},
+        { field:'link',headerName: '연결 사이트', width: 800},
+        {
+            field: 'actions',
+            type: 'actions',
+            headerName: '편집',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: ({ row }) => [
+                <GridActionsCellItem
+                    icon={<EditIcon />}
+                    label="Edit"
+                    className="textPrimary"
+                    onClick={() => handleEditClick(row)}
+                    color="inherit"
+                />,
+                <GridActionsCellItem
+                    icon={<DeleteIcon />}
+                    label="Delete"
+                    onClick={() => HandleDeleteClick(row)}
+                    color="inherit"
+                />,
+            ],
+        },
+    ];
+}

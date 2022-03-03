@@ -7,7 +7,7 @@ import { useState } from 'react';
 import ImageUpload from '../../ImageUpload';
 import useUploadStorage from "../../../hooks/useUploadStorage";
 import TextField from '@mui/material/TextField';
-import { BannerDTO } from "../../../dto/banner.dto";
+import { PopupDto } from "../../../dto/popup.dto";
 import useGetDate from "../../../hooks/useGetDate";
 import CircularProgress from '../../progress';
 import { useRouter } from "next/router";
@@ -29,7 +29,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
 
     try {
       setLoading(true);
-    isClose(false);
+      isClose(false);
       const res = await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/api/popup/create",
         {
@@ -37,8 +37,9 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
           body: JSON.stringify({
             ...newImageStorage,
             type: 'PC',
-            datetime: date
-          } as BannerDTO),
+            datetime: date,
+            link: data.lilnk
+          } as PopupDto),
         }
       );
       router.reload()
@@ -51,7 +52,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   //이미지 권장설명 수정 필요
   return (
     <>
-    <CircularProgress isOpen={loading}/>
+      <CircularProgress isOpen={loading} />
       <div>
         <Modal
           open={isOpen}
@@ -71,6 +72,13 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
                   shrink: true,
                 }}
               />
+              <InputWrap>
+                <TextField
+                  id="component-outlined"
+                  {...register("link", { required: true })}
+                  label="연결 링크"
+                />
+              </InputWrap>
               <InputWrap>
                 <Label>팝업 이미지</Label>
                 <Description>권장사이즈 : 430 x 510px / 지원파일 : jpg,png (최대 1MB)</Description>
