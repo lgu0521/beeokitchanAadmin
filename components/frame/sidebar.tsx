@@ -28,7 +28,7 @@ const Sidebar = () => {
                 component="nav"
                 aria-labelledby="nested-list-subheader"
                 subheader={
-                    <ListSubheader component="div" id="nested-list-subheader">비오키친 어드민</ListSubheader>
+                    <ListSubheader component="div" id="nested-list-subheader">헬키푸키 어드민</ListSubheader>
                 }>
                 <ListItemButton onClick={handleClick}>
                     <ListItemIcon>

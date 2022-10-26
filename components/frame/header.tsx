@@ -18,7 +18,7 @@ const Header = () => {
                     m: 1,
                     borderRadius: 1,
                 }}>
-                <Typography gutterBottom variant="h5" component="div">비오키친</Typography>
+                <Typography gutterBottom variant="h5" component="div">헬키푸키</Typography>
                 <Button variant="contained" startIcon={<AccountCircleIcon />} onClick={LoginOut}>로그아웃</Button>
             </Box>
         </header>
