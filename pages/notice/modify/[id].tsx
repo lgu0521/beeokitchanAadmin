@@ -29,21 +29,19 @@ const ModifyPage: NextPage<Props> = ({ item }) => {
 
     const OnSubmit = async (data: any) => {
         setLoading(true);
-        if (value && item.title) {
-            const res = await fetch(
-                process.env.NEXT_PUBLIC_API_URL + "/api/notice/modify",
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        ...data,
-                        id: item.id,
-                        datetime: date,
-                        content: value,
-                    }),
-                }
-            );
-            router.push("/notice");
-        }
+        const res = await fetch(
+            process.env.NEXT_PUBLIC_API_URL + "/api/notice/modify",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    ...data,
+                    id: item.id,
+                    datetime: date,
+                    content: value? value : item.content,
+                }),
+            }
+        );
+        router.push("/notice");
     };
 
     const uploadImage = async (file: any) => {
@@ -101,11 +99,11 @@ const ModifyPage: NextPage<Props> = ({ item }) => {
                             </InputWrap>
                             <Label>공지사항 내용</Label>
                             <Box sx={{
-                                    minHeight: '500px',
-                                    border: '1px solid #C4C4C4',
-                                    borderRadius: '4px',
-                                    p:"16.5px 25px",
-                                    m: '10px 0px'
+                                minHeight: '500px',
+                                border: '1px solid #C4C4C4',
+                                borderRadius: '4px',
+                                p: "16.5px 25px",
+                                m: '10px 0px'
                             }}>
                                 <div className="editor">
                                     <MarkdownEditor

@@ -24,6 +24,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const uploadStorage = useUploadStorage;
   const router = useRouter();
+
   const OnSubmit = async (data: any) => {
     let newImageStorage = await uploadStorage(newMenuImage, "storeImage");
 
@@ -38,7 +39,7 @@ const CreateModal = ({ isOpen, isClose }: Props) => {
             ...newImageStorage,
             type: 'PC',
             datetime: date,
-            link: data.lilnk
+            link: data.link
           } as PopupDto),
         }
       );
